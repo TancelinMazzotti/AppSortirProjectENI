@@ -1,0 +1,23 @@
+{% extends 'header/headerInscrip.html.twig' %}
+
+{% block main %}
+
+    {{ error }}
+<div>
+    <form action="{{ path('login') }}" method="post">
+
+        <label for="username">Email :</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}"/><br/>
+
+        <label for="password">Password :</label>
+        <input type="password" id="password" name="_password"/><br/>
+
+
+        <input type="hidden" name="_target_path" value="home"/>
+        <button class="" type="submit">login</button>
+        <a href="{{ path('register') }}"><button type="button" class="">S'incrir</button></a>
+    </form>
+</div>
+{% endblock %}
+
+

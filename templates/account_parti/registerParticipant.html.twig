@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}  {{ title }}{% endblock %}
+
+{%  block main %}
+
+    <div>
+        <form action="#" method="post">
+            {{ form_start(form_ins) }}
+
+            {{ form_label(form_ins.pseudo) }}
+            {{ form_widget(form_ins.pseudo) }}<br/>
+
+            {{ form_label(form_ins.nom) }}
+            {{ form_widget(form_ins.nom) }}<br/>
+
+            {{ form_label(form_ins.prenom) }}
+            {{ form_widget(form_ins.prenom) }}<br/>
+
+            {{ form_label(form_ins.telephone) }}
+            {{ form_widget(form_ins.telephone) }}<br/>
+
+            {{ form_label(form_ins.mail) }}
+            {{ form_widget(form_ins.mail) }}<br/>
+
+            {{ form_label(form_ins.pass) }}
+            {{ form_widget(form_ins.pass) }}<br/>
+
+            {{ form_label(form_ins.campus) }}
+            {{ form_widget(form_ins.campus) }}<br/>
+
+
+            <button class="">Crée compte</button>
+            <a href="{{ path('login') }}" class="">Annuller</a>
+
+            {{ form_end(form_ins) }}
+        </form>
+    </div>
+
+{%  endblock %}
