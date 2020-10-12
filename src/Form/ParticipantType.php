@@ -33,7 +33,7 @@ class ParticipantType extends AbstractType
                 'label' => 'Téléphone :',
                 'required' => true,
             ])
-            ->add('mail',EmailType::class,[
+            ->add('email',EmailType::class,[
                 'label' => 'Email :',
                 'required' => true,
             ])
@@ -43,7 +43,7 @@ class ParticipantType extends AbstractType
             ])
             ->add('campus',EntityType::class,[
                 'class' => Campus::class,
-                'choice_label' => 'libelle',
+                'choice_label' => 'nom_campus',
                 'label' => 'Campus :',
                 'required' => true,
             ])
