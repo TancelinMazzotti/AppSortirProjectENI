@@ -1,0 +1,17 @@
+<ul class="nav justify-content-end">
+    <li class="nav-item">
+        <p class="nav-link active"> Bienvenue : {{ app.user.pseudo }} </p>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="{{ path('logOut') }}">Se déconnecter</a>
+    </li>
+</ul>
