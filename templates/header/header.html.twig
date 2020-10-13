@@ -2,14 +2,19 @@
     <li class="nav-item">
         <p class="nav-link active"> Bienvenue : {{ app.user.pseudo }} </p>
     </li>
+    {%  if is_granted('ROLE_ADMIN') %}
     <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
+        <a class="nav-link active" href="#">Villes</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="#">Link</a>
+        <a class="nav-link active" href="#">Campus</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Accueil</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="#">Link</a>
+        <a class="nav-link active" href="#">Mon profil</a>
     </li>
     <li class="nav-item">
         <a class="nav-link active" href="{{ path('logOut') }}">Se déconnecter</a>
