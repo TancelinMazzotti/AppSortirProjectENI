@@ -50,16 +50,6 @@ class Sortie
     private $descriptionInfo;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $etatSortie;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $urlPhoto;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sortie")
      */
     private $etat;
@@ -70,13 +60,18 @@ class Sortie
     private $lieux;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
+     */
+    private $campus;
+
+
     public function __construct()
     {
-        $this->organisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,29 +199,28 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return Collection|Participant[]
-     */
-    public function getOrganisateur(): Collection
+    public function getOrganisateur(): ?Participant
     {
         return $this->organisateur;
     }
 
-    public function addOrganisateur(Participant $organisateur): self
+    public function setOrganisateur(?Participant $organisateur): self
     {
-        if (!$this->organisateur->contains($organisateur)) {
-            $this->organisateur[] = $organisateur;
-        }
+        $this->organisateur = $organisateur;
 
         return $this;
     }
 
-    public function removeOrganisateur(Participant $organisateur): self
+    public function getCampus(): ?Campus
     {
-        if ($this->organisateur->contains($organisateur)) {
-            $this->organisateur->removeElement($organisateur);
-        }
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
+
 }
