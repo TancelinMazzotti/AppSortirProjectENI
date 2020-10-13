@@ -11,10 +11,10 @@
     </li>
     {% endif %}
     <li class="nav-item">
-        <a class="nav-link active" href="#">Accueil</a>
+        <a class="nav-link active" href="{{ path('home') }}">Accueil</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="#">Mon profil</a>
+        <a class="nav-link active" href="{{ path('participant_view' , {'id' : app.user.id}) }}">Mon profil</a>
     </li>
     <li class="nav-item">
         <a class="nav-link active" href="{{ path('logOut') }}">Se déconnecter</a>

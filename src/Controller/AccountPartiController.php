@@ -23,11 +23,14 @@ class AccountPartiController extends AbstractController
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
+        if($error !== null){
+            $this->addFlash("error", $error);
+        }
+
         $lastName = $authenticationUtils->getLastUsername();
 
         return $this->render("security/login.html.twig", array(
             'last_username' => $lastName,
-            'error' => $error
         ));
     }
 
