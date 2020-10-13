@@ -6,11 +6,12 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id
@@ -42,7 +43,7 @@ class Participant
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $mail;
+    private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -132,14 +133,14 @@ class Participant
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): self
+    public function setEmail(string $email): self
     {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
     }
@@ -231,4 +232,28 @@ class Participant
 
         return $this;
     }
+
+    public function getRoles(){
+        return [$this->getAdministrator()];
+    }
+
+    public function getPassword(){
+        return $this->getPass();
+
+    }
+
+    public function getSalt(){
+
+    }
+
+    public function getUsername(){
+
+        return $this->getPseudo();
+    }
+
+
+    public function eraseCredentials(){
+
+    }
+
 }
