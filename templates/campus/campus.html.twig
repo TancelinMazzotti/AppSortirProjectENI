@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CampusController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <ul>
+        {% for camp in campus %}
+            <li>{{ camp.nomCampus}}   <a href="{{ path('campus_remove', {id: camp.id})}}">,   supp</a><a href="">,   add</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
