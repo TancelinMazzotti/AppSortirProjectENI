@@ -18,6 +18,27 @@ class CampusRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Campus::class);
     }
+    public function findCampus($value)
+    {
+        $em = $this->getEntityManager();
+        $sql ="Select *
+        FROM App\Entity\Campus c 
+        Where c.nom_campus like :value ";
+        $query = $em->createQuery($sql);
+        $query->setParameter("value",'%'.$value.'%');
+        return $query->getResult();
+    }
+
+    public function deleteCampus($value)
+    {
+        $em = $this->getEntityManager();
+        $sql ="Delete
+        FROM App\Entity\Campus c 
+        Where c.id = :value ";
+        $query = $em->createQuery($sql);
+        $query->setParameter("value",$value);
+        return $query->getResult();
+    }
 
     // /**
     //  * @return Campus[] Returns an array of Campus objects
