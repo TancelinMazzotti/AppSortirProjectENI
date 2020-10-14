@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use function Symfony\Component\String\u;
 
 /**
  * Class ParticipantController
@@ -18,6 +17,24 @@ use function Symfony\Component\String\u;
  */
 class ParticipantController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="list")
+     */
+    public function getListParticipantAction(ParticipantRepository $participantRepository){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $partiAll = $participantRepository->getAllPaticipantandCampus();
+
+        //dd($partiAll);
+
+        return $this->render('participant/listParticipant.html.twig',[
+            'title' => 'List des profil',
+            'listPart' => $partiAll,
+        ]);
+    }
+
     /**
      * @Route("/{id}", name="view")
      */
@@ -35,7 +52,7 @@ class ParticipantController extends AbstractController
         }
 
         return $this->render('participant/paticipant.html.twig', [
-            'title' => 'Mon profil',
+            'title' => 'Le profil',
             'participant' => $participant,
         ]);
         //dd($user);
@@ -70,5 +87,22 @@ class ParticipantController extends AbstractController
             'title' => 'Mon Profil',
             'formMonProfil' => $participantForm->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function deleteParticipantAction($id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $deletePart = $participantRepository->find(array('id' => $id));
+
+        $entityManager->remove($deletePart);
+        $entityManager->flush();
+
+        $this->addFlash("success",'le profil à été supprimer !');
+
+        return $this->redirectToRoute("participant_list");
     }
 }

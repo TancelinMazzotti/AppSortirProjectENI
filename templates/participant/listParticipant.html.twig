@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">{{ title }}</h1>
+
+    <table>
+        <tr>
+            <th>Pseudo</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Actif</th>
+            <th>Campus</th>
+            <th colspan="3"> Action</th>
+        </tr>
+        {% for profil in listPart %}
+            <tr>
+                <td>{{ profil.pseudo }}</td>
+                <td>{{ profil.nom }}</td>
+                <td>{{ profil.prenom }}</td>
+                <td>{{ profil.email }}</td>
+                <td>{{ profil.actif == 1 ? 'oui' : 'non' }}</td>
+                <td>{{ profil.campus.nomCampus }}</td>
+                <td><a href="#">test</a></td>
+                <td><a href="{{ path('participant_edit', {'id' : profil.id}) }}">modif</a></td>
+                <td><a href="{{ path('participant_delete', {'id' : profil.id}) }}">supprimer</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
