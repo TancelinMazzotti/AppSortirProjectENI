@@ -66,9 +66,9 @@ class Participant implements UserInterface
     private $campus;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Inscription::class, inversedBy="participant")
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="participant")
      */
-    private $inscription;
+    private $inscriptions;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
@@ -78,6 +78,7 @@ class Participant implements UserInterface
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,17 +194,32 @@ class Participant implements UserInterface
         return $this;
     }
 
-    public function getInscription(): ?Inscription
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
     {
-        return $this->inscription;
+        return $this->inscriptions;
     }
 
-    public function setInscription(?Inscription $inscription): self
+    public function addInscription(Inscription $inscription): self
     {
-        $this->inscription = $inscription;
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+        }
 
         return $this;
     }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->contains($inscription)) {
+            $this->inscriptions->removeElement($inscription);
+        }
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Sortie[]
@@ -217,7 +233,6 @@ class Participant implements UserInterface
     {
         if (!$this->sorties->contains($sortie)) {
             $this->sorties[] = $sortie;
-            $sortie->addOrganisateur($this);
         }
 
         return $this;
@@ -227,7 +242,6 @@ class Participant implements UserInterface
     {
         if ($this->sorties->contains($sortie)) {
             $this->sorties->removeElement($sortie);
-            $sortie->removeOrganisateur($this);
         }
 
         return $this;
