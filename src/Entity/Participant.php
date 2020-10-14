@@ -75,6 +75,11 @@ class Participant implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $urlPhoto;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -268,6 +273,18 @@ class Participant implements UserInterface
 
     public function eraseCredentials(){
 
+    }
+
+    public function getUrlPhoto(): ?string
+    {
+        return $this->urlPhoto;
+    }
+
+    public function setUrlPhoto(string $urlPhoto): self
+    {
+        $this->urlPhoto = $urlPhoto;
+
+        return $this;
     }
 
 }
