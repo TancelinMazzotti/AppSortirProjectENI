@@ -69,9 +69,14 @@ class Sortie
      */
     private $campus;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="sortie")
+     */
+    private $inscriptions;
 
     public function __construct()
     {
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,30 +156,6 @@ class Sortie
         return $this;
     }
 
-    public function getEtatSortie(): ?int
-    {
-        return $this->etatSortie;
-    }
-
-    public function setEtatSortie(int $etatSortie): self
-    {
-        $this->etatSortie = $etatSortie;
-
-        return $this;
-    }
-
-    public function getUrlPhoto(): ?string
-    {
-        return $this->urlPhoto;
-    }
-
-    public function setUrlPhoto(string $urlPhoto): self
-    {
-        $this->urlPhoto = $urlPhoto;
-
-        return $this;
-    }
-
     public function getEtat(): ?Etat
     {
         return $this->etat;
@@ -219,6 +200,32 @@ class Sortie
     public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->contains($inscription)) {
+            $this->inscriptions->removeElement($inscription);
+        }
 
         return $this;
     }
