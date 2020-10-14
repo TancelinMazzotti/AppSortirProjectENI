@@ -6,7 +6,6 @@
     <h1 class="text-center">{{ title }}</h1>
 
     <div class="text-center">
-        <form action="#" method="post">
             {{ form_start(formMonProfil) }}
 
             {{ form_label(formMonProfil.pseudo) }}
@@ -41,6 +40,5 @@
             <a href="{{ path('home') }}" class="">Annuller</a>
 
             {{ form_end(formMonProfil) }}
-        </form>
     </div>
 {% endblock %}

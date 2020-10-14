@@ -23,7 +23,7 @@
                 <td>{{ profil.email }}</td>
                 <td>{{ profil.actif == 1 ? 'oui' : 'non' }}</td>
                 <td>{{ profil.campus.nomCampus }}</td>
-                <td><a href="#">test</a></td>
+                <td><a href="{{ path('participant_view', {'id' : profil.id}) }}">View</a></td>
                 <td><a href="{{ path('participant_edit', {'id' : profil.id}) }}">modif</a></td>
                 <td><a href="{{ path('participant_delete', {'id' : profil.id}) }}">supprimer</a></td>
             </tr>
