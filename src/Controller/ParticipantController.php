@@ -6,6 +6,8 @@ use App\Form\AddParticipantProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -74,6 +76,19 @@ class ParticipantController extends AbstractController
 
             $pass = $passwordEncoder->encodePassword($participantSel,$participantSel->getPass());
             $participantSel->setPass($pass);
+
+            /** @var UploadedFile $picture */
+            $picture = $participantForm->get('picture')->getData();
+
+            $newFileName = sha1(uniqid()) . "." . $picture->guessExtension();
+
+            try {
+                $picture->move($this->getParameter('uplode_dir'), $newFileName);
+            }catch (FileException $fileException){
+                die($fileException);
+            }
+
+            $participantSel->setUrlPhoto($newFileName);
 
             $entityManager->persist($participantSel);
             $entityManager->flush();

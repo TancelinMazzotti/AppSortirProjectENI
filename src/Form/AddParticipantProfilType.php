@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,6 +53,10 @@ class AddParticipantProfilType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => 'nom_campus',
                 'required' => true,
+            ])
+            ->add('picture',FileType::class,[
+                'mapped' => false,
+                'label' => 'Photo de profil',
             ])
         ;
     }
