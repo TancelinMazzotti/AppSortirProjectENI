@@ -15,14 +15,46 @@
 
         </div>
         <div class="col">
-            <!--
-            <p>Campus:  sortie.campus.nom </p>
-            <p>Lieux:  sortie.lieux.nom </p>
-            -->
-            <p>Organisateur: {{ sortie.organisateur.pseudo }}</p>
-            <!--
-            <p>Etat:  sortie.etat.libelle </p>
-            -->
+            <p>Campus:
+                {% if sortie.campus is null %}
+                    undifined
+                {% else %}
+                    {{  sortie.campus.nomCampus  }}
+                {% endif %}
+            </p>
+
+            {% if sortie.LIEUX is null %}
+                <p>Lieux: undifined</p>
+                <p>Rue: undifined</p>
+                <p>Code postal: undifined</p>
+                <p>Ville: undifined</p>
+                <p>Latitude: undifined</p>
+                <p>Longitude: undifined</p>
+            {% else %}
+                <p>Lieux: {{  sortie.lieux.nom  }}</p>
+                <p>Rue: {{  sortie.lieux.rue  }}</p>
+                <p>Code postal: {{  sortie.lieux.ville.codePostal  }}</p>
+                <p>Ville: {{  sortie.lieux.ville.nom  }}</p>
+                <p>Latitude: {{  sortie.lieux.latitude  }}</p>
+                <p>Longitude: {{  sortie.lieux.longitude  }}</p>
+            {% endif %}
+
+
+            <p>Organisateur:
+                {% if sortie.organisateur is null %}
+                    undifined
+                {% else %}
+                    {{  sortie.organisateur.pseudo  }}
+                {% endif %}
+            </p>
+
+            <p>Etat:
+                {% if sortie.etat is null %}
+                    undifined
+                {% else %}
+                    {{  sortie.etat.libelle  }}
+                {% endif %}
+            </p>
         </div>
     </div>
     <div class="row">

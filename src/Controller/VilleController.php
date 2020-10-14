@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
+use App\Entity\Ville;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,5 +22,24 @@ class VilleController extends AbstractController
         return $this->render('ville/paticipant.html.twig', [
             'title' => 'Ville',
         ]);
+    }
+
+    /**
+     * @Route("/{id}/lieux/", name="lieuxByVille")
+     */
+    public function getLieuxByVille(int $id)
+    {
+        $ville =  $this->getDoctrine()
+            ->getRepository(Ville::class)
+            ->findOneBy(array('id' => $id));
+
+        $result = array();
+        foreach ($ville->getLieux() as $lieux){
+            array_push($result, [
+                'id' => $lieux->getId(),
+                'nom' => $lieux->getNom()
+            ]);
+        }
+        return  $this->json($result);
     }
 }

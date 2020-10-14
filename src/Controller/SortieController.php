@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Inscription;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\SortieType;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,20 +35,17 @@ class SortieController extends AbstractController
     {
         $sortie = new Sortie();
 
+        $villes =  $this->getDoctrine()
+            ->getRepository(Ville::class)
+            ->findAll();
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            $createStatus = true;
-
-            try{
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-                $createStatus = $form->isValid();
-            }
-            catch(DBALException $e) {
-                $createStatus = false;
-            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $createStatus = $form->isValid();
 
             return $this->render('sortie/create.html.twig', [
                 'form' => $form->createView(),
@@ -57,6 +56,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/create.html.twig', [
             'form' => $form->createView(),
+            'villes' => $villes
         ]);
     }
 }
