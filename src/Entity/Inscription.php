@@ -25,18 +25,17 @@ class Inscription
     private $dateInscription;
 
     /**
-     * @ORM\OneToOne(targetEntity=Sortie::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Sortie::class, inversedBy="inscriptions")
      */
     private $sortie;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="inscription")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="inscriptions")
      */
     private $participant;
 
     public function __construct()
     {
-        $this->participant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,33 +67,14 @@ class Inscription
         return $this;
     }
 
-    /**
-     * @return Collection|Participant[]
-     */
-    public function getParticipant(): Collection
+    public function getParticipant(): ?Participant
     {
         return $this->participant;
     }
 
-    public function addParticipant(Participant $participant): self
+    public function setParticipant(?Participant $participant): self
     {
-        if (!$this->participant->contains($participant)) {
-            $this->participant[] = $participant;
-            $participant->setInscription($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(Participant $participant): self
-    {
-        if ($this->participant->contains($participant)) {
-            $this->participant->removeElement($participant);
-            // set the owning side to null (unless already changed)
-            if ($participant->getInscription() === $this) {
-                $participant->setInscription(null);
-            }
-        }
+        $this->participant = $participant;
 
         return $this;
     }
