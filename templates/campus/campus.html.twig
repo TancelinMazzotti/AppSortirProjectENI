@@ -1,14 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CampusController!{% endblock %}
+{% block title %}Campus{% endblock %}
 
-{% block body %}
+{% block script %}
+    <script src="{{ asset('js/campus/campus.js') }}" type="text/javascript"></script>
+{% endblock %}
 
+{% block main %}
+<h1 class="text-center">Gérer les campus</h1>
+    <p>Filtrer les sites</p>
+    <label for="rechercheCampus">Le Nom Contient: </label>
+    <input id="rechercheCampus"> <button id="rechercheCampusBtn" onClick="myFunction()" >Rechercher</button>
 <div class="example-wrapper">
-    <ul>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Campus</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="table_campus">
+
         {% for camp in campus %}
-            <li>{{ camp.nomCampus}}   <a href="{{ path('campus_remove', {id: camp.id})}}">,   supp</a><a href="">,   add</a></li>
+            <tr>
+                <td>{{ camp.nomCampus}} </td>
+                <td><a class="btn btn-outline-warning" href="#" role="button">Modifier</a><a class="btn btn-outline-danger" href="{{ path('campus_remove', {id: camp.id})}}" role="button">Supprimer</a></td>
+            </tr>
         {% endfor %}
-    </ul>
+
+        <tr>
+            <td>{{ form_start(campusForm) }}{{ form_widget(campusForm) }}</td>
+            <td><button class="btn btn-outline-success" type="submit">Ajouter</button>
+                {{ form_end(campusForm) }}</td>
+        </tr>
+        </tbody>
+    </table>
+
 </div>
+
+
+
+
 {% endblock %}
