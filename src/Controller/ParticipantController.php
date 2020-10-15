@@ -75,43 +75,55 @@ class ParticipantController extends AbstractController
     public function getUpdateParticipantAction(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository, $id,
                     UserPasswordEncoderInterface $passwordEncoder){
 
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $participantSel  = $participantRepository->find(array('id' => $id));
 
-        $participantForm = $this->createForm(AddParticipantProfilType::class,$participantSel);
+        $user = $this->getUser();
 
-        $participantForm->handleRequest($request);
+        if( $user->getRoles()[0] === "ROLE_ADMIN" || $participantSel->getPass() === $user->getPassword() && $participantSel->getPseudo() ===  $user->getUsername()) {
 
-        if($participantForm->isSubmitted() && $participantForm->isValid()){
+            $participantForm = $this->createForm(AddParticipantProfilType::class, $participantSel);
 
-            $pass = $passwordEncoder->encodePassword($participantSel,$participantSel->getPass());
-            $participantSel->setPass($pass);
+            $participantForm->handleRequest($request);
 
-            /** @var UploadedFile $picture */
-            $picture = $participantForm->get('picture')->getData();
+            if ($participantForm->isSubmitted() && $participantForm->isValid()) {
 
-            $newFileName = sha1(uniqid()) . "." . $picture->guessExtension();
+                $pass = $passwordEncoder->encodePassword($participantSel, $participantSel->getPass());
+                $participantSel->setPass($pass);
 
-            try {
-                $picture->move($this->getParameter('uplode_dir'), $newFileName);
-            }catch (FileException $fileException){
-                die($fileException);
+                /** @var UploadedFile $picture */
+                $picture = $participantForm->get('picture')->getData();
+
+                $newFileName = sha1(uniqid()) . "." . $picture->guessExtension();
+
+                try {
+                    $picture->move($this->getParameter('uplode_dir'), $newFileName);
+                } catch (FileException $fileException) {
+                    die($fileException);
+                }
+
+                $participantSel->setUrlPhoto($newFileName);
+
+                $entityManager->persist($participantSel);
+                $entityManager->flush();
+
+                $this->addFlash("success", "le profil à été modifier");
+
+                return $this->redirectToRoute("participant_view", array('id' => $participantSel->getId()));
             }
 
-            $participantSel->setUrlPhoto($newFileName);
-
-            $entityManager->persist($participantSel);
-            $entityManager->flush();
-
-            $this->addFlash("success","le profil à été modifier");
-
-            return $this->redirectToRoute("participant_view", array('id' => $participantSel->getId()));
+            return $this->render('participant/modifProfilParticipant.html.twig', [
+                'title' => 'Mon Profil',
+                'formMonProfil' => $participantForm->createView(),
+                'participant' => $participantSel,
+            ]);
+        }else{
+            $this->addFlash("error","Vous ne passerez pas ...");
+            return $this->render('home/index.html.twig', [
+                'controller_name' => 'HomeController',
+            ]);
         }
-
-        return $this->render('participant/modifProfilParticipant.html.twig',[
-            'title' => 'Mon Profil',
-            'formMonProfil' => $participantForm->createView(),
-            'participant' => $participantSel,
-        ]);
     }
 
     /**

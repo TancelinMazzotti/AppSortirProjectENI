@@ -61,11 +61,16 @@
             </div>
             <div class="form-group col-md-3">
                 {{ form_label(formMonProfil.picture) }}
-                {{ form_widget(formMonProfil.picture, { 'attr' : { 'class': 'form-control' }}) }}
+                {{ form_widget(formMonProfil.picture, { 'attr' : { 'class': 'form-control-file' }}) }}
             </div>
         </div>
-            <button class="">Enregistrer</button>
-            <a href="{{ path('home') }}" class="">Annuller</a>
+        <div class="form-row">
+            <div class="form-group offset-4 col-4">
+                <button class="btn btn-success">Enregistrer</button>
+                <a href="{{ path('home') }}" class="btn btn-danger">Annuller</a>
+            </div>
+        </div>
+
 
             {{ form_end(formMonProfil) }}
     </div>
