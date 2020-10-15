@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block main %}
+    <h1 class="text-center">{{ title }}</h1>
+
+    <div class="text-center">
+            {{ form_start(formMonProfil) }}
+
+            {{ form_label(formMonProfil.pseudo) }}
+            {{ form_widget(formMonProfil.pseudo) }}<br/>
+
+            {{ form_label(formMonProfil.nom) }}
+            {{ form_widget(formMonProfil.nom) }}<br/>
+
+            {{ form_label(formMonProfil.prenom) }}
+            {{ form_widget(formMonProfil.prenom) }}<br/>
+
+            {{ form_label(formMonProfil.telephone) }}
+            {{ form_widget(formMonProfil.telephone) }}<br/>
+
+            {{ form_label(formMonProfil.email) }}
+            {{ form_widget(formMonProfil.email) }}<br/>
+
+
+            {{ form_label(formMonProfil.pass.first) }}
+            {{ form_widget(formMonProfil.pass.first) }}<br/>
+
+            {{ form_label(formMonProfil.pass.second) }}
+            {{ form_widget(formMonProfil.pass.second) }}<br/>
+
+            {{ form_label(formMonProfil.campus) }}
+            {{ form_widget(formMonProfil.campus) }}<br/>
+
+            {{ form_label(formMonProfil.picture) }}
+            {{ form_widget(formMonProfil.picture) }}<br/>
+
+            <button class="">Enregistrer</button>
+            <a href="{{ path('home') }}" class="">Annuller</a>
+
+            {{ form_end(formMonProfil) }}
+    </div>
+{% endblock %}

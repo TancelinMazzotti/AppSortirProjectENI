@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+
+<div class="example-wrapper">
+    <h3 class="text-center">{{ participant[0].pseudo }}</h3>
+
+    <div>
+        <p>Prenom : {{ participant[0].prenom }}</p>
+        <p>Nom : {{ participant[0].nom }}</p>
+        <p>Téléphone : {{ participant[0].telephone }}</p>
+        <p>Email : {{ participant[0].email }}</p>
+        <p>Campus : {{ participant[0].campus.nomCampus }}</p>
+        <a class="button" href="{{ path('home') }}">Retour</a>
+
+    </div>
+
+
+</div>
+{% endblock %}

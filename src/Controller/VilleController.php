@@ -24,7 +24,7 @@ class VilleController extends AbstractController
      */
     public function getVilleList(VilleRepository $villeRepository)
     {
-        return $this->render('ville/index.html.twig', [
+        return $this->render('ville/paticipant.html.twig', [
             'title' => 'Ville',
         ]);
     }

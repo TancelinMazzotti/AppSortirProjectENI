@@ -1,0 +1,30 @@
+{% block formSortie %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {{ form_start(form) }}
+                {{ form_row(form.nom) }}
+                {{ form_row(form.dateDebut) }}
+                {{ form_row(form.dateCloture) }}
+                {{ form_row(form.duree) }}
+                {{ form_row(form.nbInscriptionMax) }}
+                {{ form_row(form.descriptionInfo) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.campus) }}
+                {{ form_row(form.lieux) }}
+                {{ form_row(form.organisateur) }}
+                {{ form_row(form.etat) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Valider</button>
+            </div>
+            <div class="col">
+                <a href="{{ path('home') }}" class="btn btn-danger btn-lg btn-block">Annuler</a>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

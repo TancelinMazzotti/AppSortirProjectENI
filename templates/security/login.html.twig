@@ -1,8 +1,12 @@
 {% extends 'header/headerInscrip.html.twig' %}
 
 {% block main %}
-    <h3>Bienvenue sur la page de connection</h3>
-    {{ error }}
+    <h1 class="text-center">Bienvenue sur la page de connection</h1>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message.message }}
+        </div>
+    {% endfor %}
 <div>
     <form action="{{ path('login') }}" method="post">
 

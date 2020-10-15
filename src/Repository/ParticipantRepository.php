@@ -47,4 +47,14 @@ class ParticipantRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getAllPaticipantandCampus(){
+
+        return $this->createQueryBuilder('p')
+            ->join('p.campus','c')
+            ->getQuery()
+            ->getResult();
+
+
+    }
 }

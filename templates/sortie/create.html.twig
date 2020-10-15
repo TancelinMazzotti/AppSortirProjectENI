@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block main %}
+    {% if createStatus is defined %}
+        {% if createStatus %}
+            <div class="alert alert-success" role="alert">
+                Création réussie !
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Echec création... Sorry...
+            </div>
+        {% endif %}
+    {% endif %}
+{% embed 'sortie/formSortie.html.twig' %}
+{% endembed %}
+{% endblock %}

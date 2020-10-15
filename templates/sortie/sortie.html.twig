@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SortieController!{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p>Nom: {{ sortie.nom }}</p>
+            <p>Date de début: {{ sortie.dateDebut | date("d/m/Y")}}</p>
+            <p>Date de fin: {{ sortie.dateCloture | date("d/m/Y")}}</p>
+            <p>Durée: {{ sortie.duree }}</p>
+            <p>Nombre d'incription max: {{ sortie.nbInscriptionMax }}</p>
+            <p>Description: {{ sortie.descriptionInfo }}</p>
+
+        </div>
+        <div class="col">
+            <!--
+            <p>Campus:  sortie.campus.nom </p>
+            <p>Lieux:  sortie.lieux.nom </p>
+            -->
+            <p>Organisateur: {{ sortie.organisateur.pseudo }}</p>
+            <!--
+            <p>Etat:  sortie.etat.libelle </p>
+            -->
+        </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom & prénom</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for inscription in sortie.inscriptions %}
+                <tr>
+                    <th scope="row">{{ inscription.participant.id }}</th>
+                    <td>{{ inscription.participant.pseudo }}</td>
+                    <td>{{ inscription.participant.nom }} {{ inscription.participant.prenom }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
