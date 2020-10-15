@@ -8,8 +8,11 @@
                 crossorigin="anonymous"></script>
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <script src="{{ asset('js/bootstrap.min.css') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/ville/ville.js') }}" type="text/javascript"></script>
+        <script>const ROOL_URL = "{{ url('login') }}";</script>
+
     </head>
+    {% block script %}
+    {% endblock %}
     {% block header %}
         {% include('header/header.html.twig') %}
     {%  endblock %}
