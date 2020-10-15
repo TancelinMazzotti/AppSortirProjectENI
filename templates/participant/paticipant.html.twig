@@ -14,8 +14,6 @@
                 {% else %}
                 <img class="card-img-top" src="{{ asset('Img/'~ participant[0].urlPhoto ) }}" alt="Card image cap">
                 {% endif %}
-            </div>
-            {#<img src="{{ asset('Img/'~ participant[0].urlPhoto ) }}">#}
         </div>
         <div class="float-left">
         <p>Prenom : {{ participant[0].prenom }}</p><br/>
@@ -26,7 +24,4 @@
         <a class="button" href="{{ path('home') }}">Retour</a><br/>
         </div>
     </div>
-
-
-
 {% endblock %}
