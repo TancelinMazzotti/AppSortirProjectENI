@@ -21,9 +21,9 @@ class CampusRepository extends ServiceEntityRepository
     public function findCampus($value)
     {
         $em = $this->getEntityManager();
-        $sql ="Select *
+        $sql ="Select c.id, c.nomCampus
         FROM App\Entity\Campus c 
-        Where c.nom_campus like :value ";
+        Where c.nomCampus like :value ";
         $query = $em->createQuery($sql);
         $query->setParameter("value",'%'.$value.'%');
         return $query->getResult();
