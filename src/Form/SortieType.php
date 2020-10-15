@@ -7,6 +7,7 @@ use App\Entity\Etat;
 use App\Entity\Lieux;
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Repository\LieuxRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -70,7 +71,10 @@ class SortieType extends AbstractType
                 'label' => 'Lieux: ',
                 'class' => Lieux::class,
                 'choice_label' => 'nom',
-                'required' => true
+                'required' => true,
+                'choices'  => [],
+                'expanded' => false,
+                'multiple' => false
             ])
 
             ->add('organisateur', EntityType::class, [

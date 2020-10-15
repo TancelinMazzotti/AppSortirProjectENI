@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
 use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
@@ -44,7 +45,9 @@ class VilleController extends AbstractController
             $returnId = null;
             $this->addFlash('error', 'impossible de supprimer la ville');
         }
-        return new Response($id);
+        //$response = new Response(json_encode($returnId)); $response->headers->set('Content-Type', 'application/json');
+        //return new Response($response);
+        return $returnId;
     }
 
     /**

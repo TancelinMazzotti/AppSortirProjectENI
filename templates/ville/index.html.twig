@@ -2,6 +2,10 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block script %}
+<script src="{{ asset('js/ville/ville.js') }}" type="text/javascript"></script>
+{% endblock %}
+
 {% block main %}
 
     <h3>Filtrer les villes</h3>
@@ -10,7 +14,6 @@
         <input id="searchBar" placeholder="PAR">
         <input type="submit" value="Rechercher">
     </div>
-
     <div>
         <table>
             <thead>

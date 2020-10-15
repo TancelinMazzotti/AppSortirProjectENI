@@ -1,7 +1,7 @@
 window.onload = loadVille();
 
 function loadVille(){
-    $.getJSON(ROOL_URL + "/Ville/apiListVille", function (data){
+    $.getJSON(ROOL_URL + "Ville/apiListVille", function (data){
         for(var i = 0; i < Object.keys(data.list_ville).length; i++){
             tableauVille(data.list_ville[i]);
         }
@@ -24,7 +24,7 @@ async function supprimerVille(id){
     }
     xhr.open("GET", "http://localhost/AppSortirProjectENI/public/Ville/Supprimer/"+ id, true);
     xhr.send();*/
-    let response = await fetch(ROOL_URL + '/Ville/Supprimer/'+ id, { method: 'GET'})
+    let response = await fetch(ROOL_URL + 'Ville/Supprimer/'+ id)
     console.log(response);
     if(response.status === 200){
         let data = await response.text();
