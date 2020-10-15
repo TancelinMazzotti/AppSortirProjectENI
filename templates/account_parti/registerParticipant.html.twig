@@ -9,30 +9,57 @@
         <form action="#" method="post">
             {{ form_start(form_ins) }}
 
-            {{ form_label(form_ins.pseudo) }}
-            {{ form_widget(form_ins.pseudo) }}<br/>
-
-            {{ form_label(form_ins.nom) }}
-            {{ form_widget(form_ins.nom) }}<br/>
-
-            {{ form_label(form_ins.prenom) }}
-            {{ form_widget(form_ins.prenom) }}<br/>
-
-            {{ form_label(form_ins.telephone) }}
-            {{ form_widget(form_ins.telephone) }}<br/>
-
-            {{ form_label(form_ins.email) }}
-            {{ form_widget(form_ins.email) }}<br/>
-
-            {{ form_label(form_ins.pass) }}
-            {{ form_widget(form_ins.pass) }}<br/>
-
-            {{ form_label(form_ins.campus) }}
-            {{ form_widget(form_ins.campus) }}<br/>
 
 
-            <button class="">Crée compte</button>
-            <a href="{{ path('login') }}" class="">Annuller</a>
+            <div class="form-row">
+                <div class="form-group offset-3 col-md-3">
+                    {{ form_label(form_ins.nom) }}
+                    {{ form_widget(form_ins.nom, { 'attr' : { 'class': 'form-control' } }) }}
+
+                </div>
+                <div class="form-group col-md-3">
+                    {{ form_label(form_ins.prenom) }}
+                    {{ form_widget(form_ins.prenom, { 'attr' : { 'class': 'form-control' } }) }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group offset-3 col-md-3">
+                    {{ form_label(form_ins.pseudo) }}
+                    {{ form_widget(form_ins.pseudo, { 'attr' : { 'class': 'form-control' } }) }}
+
+                </div>
+                <div class="form-group col-md-3">
+                    {{ form_label(form_ins.telephone) }}
+                    {{ form_widget(form_ins.telephone, { 'attr' : { 'class': 'form-control' } }) }}
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group offset-3 col-md-3">
+                    {{ form_label(form_ins.email) }}
+                    {{ form_widget(form_ins.email, { 'attr' : { 'class': 'form-control' } }) }}
+
+                </div>
+                <div class="form-group col-md-3">
+                    {{ form_label(form_ins.pass) }}
+                    {{ form_widget(form_ins.pass, { 'attr' : { 'class': 'form-control' } }) }}
+
+                </div>
+            </div>
+           <div class="form-row">
+               <div class="form-group offset-3 col-md-3">
+                   {{ form_label(form_ins.campus) }}
+                   {{ form_widget(form_ins.campus, { 'attr' : { 'class': 'custom-select' } }) }}
+               </div>
+           </div>
+
+            <div class="form-row">
+                <div class="form-group offset-5 col-4">
+                    <button class="btn btn-success col-md-3">Crée compte</button>
+                    <a  href="{{ path('login') }}" class="btn btn-danger">Annuller</a>
+                </div>
+            </div>
+
 
             {{ form_end(form_ins) }}
         </form>

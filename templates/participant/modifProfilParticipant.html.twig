@@ -5,37 +5,65 @@
 {% block main %}
     <h1 class="text-center">{{ title }}</h1>
 
-    <div class="text-center">
+    <div class="text-center col">
             {{ form_start(formMonProfil) }}
 
-            {{ form_label(formMonProfil.pseudo) }}
-            {{ form_widget(formMonProfil.pseudo) }}<br/>
+        <div class="form-row">
+            <div class="form-group offset-3 col-md-3">
+                {{ form_label(formMonProfil.nom) }}
+                {{ form_widget(formMonProfil.nom, { 'attr' : { 'class': 'form-control' }}) }}<br/>
+            </div>
+            <div class="form-group col-md-3">
+                {{ form_label(formMonProfil.prenom) }}
+                {{ form_widget(formMonProfil.prenom, { 'attr' : { 'class': 'form-control' } }) }}
+            </div>
+        </div>
 
-            {{ form_label(formMonProfil.nom) }}
-            {{ form_widget(formMonProfil.nom) }}<br/>
-
-            {{ form_label(formMonProfil.prenom) }}
-            {{ form_widget(formMonProfil.prenom) }}<br/>
-
-            {{ form_label(formMonProfil.telephone) }}
-            {{ form_widget(formMonProfil.telephone) }}<br/>
-
-            {{ form_label(formMonProfil.email) }}
-            {{ form_widget(formMonProfil.email) }}<br/>
-
-
-            {{ form_label(formMonProfil.pass.first) }}
-            {{ form_widget(formMonProfil.pass.first) }}<br/>
-
-            {{ form_label(formMonProfil.pass.second) }}
-            {{ form_widget(formMonProfil.pass.second) }}<br/>
-
-            {{ form_label(formMonProfil.campus) }}
-            {{ form_widget(formMonProfil.campus) }}<br/>
-
-            {{ form_label(formMonProfil.picture) }}
-            {{ form_widget(formMonProfil.picture) }}<br/>
-
+        <div class="form-row">
+            <div class="form-group offset-3 col-md-3">
+                {{ form_label(formMonProfil.pseudo) }}
+                {{ form_widget(formMonProfil.pseudo, { 'attr' : { 'class': 'form-control' } }) }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form_label(formMonProfil.telephone) }}
+                {{ form_widget(formMonProfil.telephone, { 'attr' : { 'class': 'form-control' } }) }}<br/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group offset-3 col-md-3">
+                {{ form_label(formMonProfil.email) }}
+                {{ form_widget(formMonProfil.email, { 'attr' : { 'class': 'form-control' } }) }}
+            </div>
+            <div class="form-group col-md-3">
+                {{ form_label(formMonProfil.campus) }}
+                {{ form_widget(formMonProfil.campus, { 'attr' : { 'class': 'custom-select' } }) }}<br/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group offset-3 col-md-3">
+                {{ form_label(formMonProfil.pass.first) }}
+                {{ form_widget(formMonProfil.pass.first, { 'attr' : { 'class': 'form-control' } }) }}<br/>
+            </div>
+            <div class="form-group col-md-3">
+                {{ form_label(formMonProfil.pass.second) }}
+                {{ form_widget(formMonProfil.pass.second , { 'attr' : { 'class': 'form-control' }}) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group offset-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                    {% if participant.urlPhoto == null or participant.urlPhoto == "" %}
+                        <p> pas encore de photo</p>
+                    {% else %}
+                        <img class="card-img-top" src="{{ asset('Img/'~ participant.urlPhoto ) }}" alt="Card image cap">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                {{ form_label(formMonProfil.picture) }}
+                {{ form_widget(formMonProfil.picture, { 'attr' : { 'class': 'form-control' }}) }}
+            </div>
+        </div>
             <button class="">Enregistrer</button>
             <a href="{{ path('home') }}" class="">Annuller</a>
 

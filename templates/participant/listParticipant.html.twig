@@ -5,7 +5,8 @@
 {% block main %}
     <h1 class="text-center">{{ title }}</h1>
 
-    <table>
+    <div class="row text-center">
+    <table class="table">
         <tr>
             <th>Pseudo</th>
             <th>Nom</th>
@@ -29,5 +30,9 @@
             </tr>
         {% endfor %}
     </table>
+    </div>
+    <div class="text-center">
+        <a href="{{ path('participant_new') }}">Ajouter</a>
+    </div>
 
 {% endblock %}

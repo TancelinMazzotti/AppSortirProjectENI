@@ -10,16 +10,24 @@
 <div>
     <form action="{{ path('login') }}" method="post">
 
+        <div class="form-row">
+            <div class="form-group offset-4 col-md-4">
         <label for="username">Email :</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/><br/>
+        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}"/><br/>
 
         <label for="password">Password :</label>
-        <input type="password" id="password" name="_password"/><br/>
-
+        <input class="form-control" type="password" id="password" name="_password"/><br/>
+            </div>
+        </div>
 
         <input type="hidden" name="_target_path" value="home"/>
-        <button class="" type="submit">login</button>
-        <a href="{{ path('register') }}"><button type="button" class="">S'incrir</button></a>
+        <div class="form-row">
+            <div class="form-group offset-5 col-4">
+                <button class="btn btn-success col-md-3" type="submit">login</button>
+                <a href="{{ path('register') }}"><button type="button" class="btn btn-primary col-md-3">S'incrir</button></a>
+            </div>
+        </div>
+
     </form>
 </div>
 {% endblock %}
