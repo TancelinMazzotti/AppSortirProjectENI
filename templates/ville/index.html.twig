@@ -6,8 +6,24 @@
 
     <h3>Filtrer les villes</h3>
     <div>
-        <input id="searchBar" placeholder="villes">
+        <label for="searchBar">Le nom contient : </label>
+        <input id="searchBar" placeholder="PAR">
         <input type="submit" value="Rechercher">
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col" class="border p-1">Ville</th>
+                    <th scope="col" class="border p-1">Code postal</th>
+                    <th scope="col" colspan="2" class="border p-1">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table_ville">
+
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}
