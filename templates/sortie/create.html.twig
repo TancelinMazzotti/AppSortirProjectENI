@@ -3,6 +3,7 @@
 {% block title %}Hello SortieController!{% endblock %}
 
 {% block main %}
+    <h1 class="text-center">Créer une sortie</h1>
     {% if createStatus is defined %}
         {% if createStatus %}
             <div class="alert alert-success" role="alert">
@@ -14,6 +15,7 @@
             </div>
         {% endif %}
     {% endif %}
+
 {% embed 'sortie/formSortie.html.twig' %}
 {% endembed %}
 {% endblock %}

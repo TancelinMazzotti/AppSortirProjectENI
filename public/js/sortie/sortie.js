@@ -6,7 +6,7 @@ function onVilleChanged(){
 }
 
 function requestLoadLieuxByVille(idVille){
-    let url = ROOL_URL + "/api/ville/" + idVille + "/lieux"
+    let url = ROOL_URL + "api/ville/" + idVille + "/lieux"
     let httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = responseLoadLieuxByVille
     httpRequest.open("GET", url, true);
@@ -47,7 +47,7 @@ function onLieuxChanged(){
 }
 
 function requestLoadLieu(idLieu){
-    let url = ROOL_URL + "/api/lieu/" + idLieu
+    let url = ROOL_URL + "api/lieu/" + idLieu
     let httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = responseLoadLieu
     httpRequest.open("GET", url, true);
@@ -85,3 +85,13 @@ function changeLieu(lieu){
 }
 
 onVilleChanged()
+
+function onOpenModal(){
+    let modal = document.getElementById('myModal')
+    modal.setAttribute('style', 'display: flex');
+}
+
+function onCloseModal(){
+    let modal = document.getElementById('myModal')
+    modal.setAttribute('style', 'display: none');
+}
