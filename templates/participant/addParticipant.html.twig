@@ -1,0 +1,65 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+    <h1 class="text-center">{{ title }}</h1>
+
+
+    <div class="text-center">
+        {{ form_start(form_int) }}
+
+
+    <div class="form-row">
+    <div class="form-group offset-3 col-md-3">
+        {{ form_label(form_int.nom) }}
+        {{ form_widget(form_int.nom, { 'attr' : { 'class': 'form-control' }}) }}<br/>
+    </div>
+    <div class="form-group col-md-3">
+        {{ form_label(form_int.prenom) }}
+        {{ form_widget(form_int.prenom, { 'attr' : { 'class': 'form-control' } }) }}
+    </div>
+    </div>
+
+    <div class="form-row">
+    <div class="form-group offset-3 col-md-3">
+         {{ form_label(form_int.pseudo) }}
+         {{ form_widget(form_int.pseudo, { 'attr' : { 'class': 'form-control' } }) }}
+    </div>
+    <div class="form-group col-md-3">
+        {{ form_label(form_int.telephone) }}
+        {{ form_widget(form_int.telephone, { 'attr' : { 'class': 'form-control' } }) }}<br/>
+    </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group offset-3 col-md-3">
+        {{ form_label(form_int.email) }}
+        {{ form_widget(form_int.email, { 'attr' : { 'class': 'form-control' } }) }}
+    </div>
+        <div class="form-group col-md-3">
+            {{ form_label(form_int.campus) }}
+            {{ form_widget(form_int.campus, { 'attr' : { 'class': 'custom-select' } }) }}<br/>
+        </div>
+    </div>
+    <div class="form-row">
+    <div class="form-group offset-3 col-md-3">
+        {{ form_label(form_int.pass.first) }}
+        {{ form_widget(form_int.pass.first, { 'attr' : { 'class': 'form-control' } }) }}<br/>
+    </div>
+        <div class="form-group col-md-3">
+        {{ form_label(form_int.pass.second) }}
+        {{ form_widget(form_int.pass.second , { 'attr' : { 'class': 'form-control'} }) }}
+    </div>
+    </div>
+    <div class="col">
+        {{ form_label(form_int.picture) }}
+        {{ form_widget(form_int.picture) }}
+    </div>
+
+        <button class="">Enregistrer</button>
+        <a href="{{ path('home') }}" class="">Annuller</a>
+
+        {{ form_end(form_int) }}
+
+    </div>
+{% endblock %}

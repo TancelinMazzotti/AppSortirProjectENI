@@ -2,15 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\AddParticipantProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class ParticipantController
@@ -52,6 +60,7 @@ class ParticipantController extends AbstractController
         if($participant[0]->getPass() === $user->getPassword() && $participant[0]->getPseudo() ===  $user->getUsername()) {
             return $this->redirectToRoute("participant_edit", array('id' => $participant[0]->getId()));
         }
+        //dd($participant);
 
         return $this->render('participant/paticipant.html.twig', [
             'title' => 'Le profil',
@@ -101,6 +110,7 @@ class ParticipantController extends AbstractController
         return $this->render('participant/modifProfilParticipant.html.twig',[
             'title' => 'Mon Profil',
             'formMonProfil' => $participantForm->createView(),
+            'participant' => $participantSel,
         ]);
     }
 
@@ -119,5 +129,65 @@ class ParticipantController extends AbstractController
         $this->addFlash("success",'le profil à été supprimer !');
 
         return $this->redirectToRoute("participant_list");
+    }
+
+    /**
+     * @Route("/insert/new", name="new")
+     */
+    public function insertParticipantAction(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $passwordEncoder){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $participant = new Participant();
+
+        $participantForm = $this->createForm(AddParticipantProfilType::class,$participant);
+        $participantForm->handleRequest($request);
+
+        if($participantForm->isSubmitted() && $participantForm->isValid()){
+
+            $participant->setAdministrator("ROLE_USER");
+            $participant->setActif(true);
+
+            $pass = $passwordEncoder->encodePassword($participant,$participant->getPass());
+            $participant->setPass($pass);
+
+            /** var UploadedFile $picture */
+            $picture = $participantForm->get('picture')->getData();
+
+            $newFileName = sha1(uniqid()) . "." . $picture->guessExtension();
+
+            try {
+                $picture->move($this->getParameter('uplode_dir'), $newFileName);
+            }catch (FileException $fileException){
+                die($fileException);
+            }
+
+            $participant->setUrlPhoto($newFileName);
+
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+            $this->addFlash("success",'le profil à bien été crée !');
+
+            return $this->redirectToRoute("participant_list");
+        }
+
+        return $this->render('participant/addParticipant.html.twig',[
+            'title' => 'ajouter un participant',
+            'form_int' => $participantForm->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/faireDelaSerialisation/test", name="test")
+     */
+    public function getApi(ParticipantRepository $participantRepository){
+
+        $part = $participantRepository->findAll();
+
+        $res = new Response();
+        $res->setContent(json_encode(['list' => $part]));
+
+        return $res;
     }
 }
