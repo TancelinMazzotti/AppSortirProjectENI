@@ -20,7 +20,11 @@
                 {% endfor %}
                 </select>
 
-                {{ form_row(form.lieux, {'attr': {'id': 'select_lieux'}}) }}
+                {{ form_row(form.lieux) }}
+                <label>Rue: </label><p id="p_rue"></p>
+                <label>Code postal: </label><p id="p_code_postal"></p>
+                <label>Latitude: </label><p id="p_latitude"></p>
+                <label>Longitude: </label><p id="p_longitude"></p>
                 {{ form_row(form.organisateur) }}
                 {{ form_row(form.etat) }}
             </div>

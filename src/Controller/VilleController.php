@@ -23,23 +23,4 @@ class VilleController extends AbstractController
             'title' => 'Ville',
         ]);
     }
-
-    /**
-     * @Route("/{id}/lieux/", name="lieuxByVille")
-     */
-    public function getLieuxByVille(int $id)
-    {
-        $ville =  $this->getDoctrine()
-            ->getRepository(Ville::class)
-            ->findOneBy(array('id' => $id));
-
-        $result = array();
-        foreach ($ville->getLieux() as $lieux){
-            array_push($result, [
-                'id' => $lieux->getId(),
-                'nom' => $lieux->getNom()
-            ]);
-        }
-        return  $this->json($result);
-    }
 }
