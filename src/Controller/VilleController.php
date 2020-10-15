@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieux;
 use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;

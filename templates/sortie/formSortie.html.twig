@@ -12,7 +12,19 @@
             </div>
             <div class="col">
                 {{ form_row(form.campus) }}
+
+                <label>Ville:</label>
+                <select id="select_ville" onchange="onVilleChanged()">
+                {% for ville in villes %}
+                    <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                {% endfor %}
+                </select>
+
                 {{ form_row(form.lieux) }}
+                <label>Rue: </label><p id="p_rue"></p>
+                <label>Code postal: </label><p id="p_code_postal"></p>
+                <label>Latitude: </label><p id="p_latitude"></p>
+                <label>Longitude: </label><p id="p_longitude"></p>
                 {{ form_row(form.organisateur) }}
                 {{ form_row(form.etat) }}
             </div>
@@ -27,4 +39,5 @@
         </div>
         {{ form_end(form) }}
     </div>
+    <script src="/js/sortie/sortie.js"></script>
 {% endblock %}
