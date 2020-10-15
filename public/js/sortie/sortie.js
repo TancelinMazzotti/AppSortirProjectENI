@@ -6,7 +6,7 @@ function onVilleChanged(){
 }
 
 function requestLoadLieuxByVille(idVille){
-    let url = "http://localhost:8000/api/ville/" + idVille + "/lieux/"
+    let url = ROOL_URL + "/api/ville/" + idVille + "/lieux"
     let httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = responseLoadLieuxByVille
     httpRequest.open("GET", url, true);
@@ -16,9 +16,7 @@ function requestLoadLieuxByVille(idVille){
 
 function responseLoadLieuxByVille(){
     if (this.readyState === 4 && this.status === 200) {
-        console.log("success")
         let lieux = JSON.parse(this.responseText);
-        console.log(lieux)
         changeOptionSelectLieux(lieux);
     }
 }
@@ -29,22 +27,27 @@ function changeOptionSelectLieux(lieux){
 
     for (let lieu of lieux){
         let option = document.createElement("option");
-        console.log(lieu)
         option.value = lieu.id;
         option.text = lieu.nom;
         selectLieux.add(option);
     }
+    onLieuxChanged()
 }
 
 function onLieuxChanged(){
 
     let selectLieux = document.getElementById('sortie_lieux')
-    let idLieu = selectLieux.options[selectLieux.selectedIndex].value
-    requestLoadLieu(idLieu)
+    if (selectLieux.options[selectLieux.selectedIndex])
+    {
+        let idLieu = selectLieux.options[selectLieux.selectedIndex].value
+        requestLoadLieu(idLieu)
+    }
+    else changeLieu(null)
+
 }
 
 function requestLoadLieu(idLieu){
-    let url = "http://localhost:8000/api/lieux/" + idLieu
+    let url = ROOL_URL + "/api/lieu/" + idLieu
     let httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = responseLoadLieu
     httpRequest.open("GET", url, true);
@@ -54,18 +57,31 @@ function requestLoadLieu(idLieu){
 
 function responseLoadLieu(){
     if (this.readyState === 4 && this.status === 200) {
-        console.log("success")
         let lieu = JSON.parse(this.responseText);
-        console.log(lieu)
         changeLieu(lieu);
     }
 }
 
 function changeLieu(lieu){
-    let pRue = document.getElementById('p_rue')
-    let pCodePostal = document.getElementById('p_code_postal')
-    let pLatitude = document.getElementById('p_latitude')
-    let pLongitude = document.getElementById('p_longitude')
+    let rue = document.getElementById('rue')
+    let elementCodePostal = document.getElementById('codepostal')
+    let latitude = document.getElementById('latitude')
+    let longitude = document.getElementById('longitude')
+    console.log(elementCodePostal)
+    console.log(lieu)
+
+    if(lieu != null) {
+        rue.innerHTML = lieu.rue
+        elementCodePostal = lieu.codePostal
+        latitude.innerHTML = lieu.latitude
+        longitude.innerHTML = lieu.longitude
+    }
+    else {
+        rue.innerHTML = ''
+        elementCodePostal = ''
+        latitude.innerHTML = ''
+        longitude.innerHTML = ''
+    }
 }
 
 onVilleChanged()

@@ -72,7 +72,6 @@ class SortieType extends AbstractType
                 'class' => Lieux::class,
                 'choice_label' => 'nom',
                 'required' => true,
-                'choices'  => [],
                 'expanded' => false,
                 'multiple' => false
             ])
