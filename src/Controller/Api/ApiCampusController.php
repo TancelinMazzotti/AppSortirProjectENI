@@ -27,6 +27,7 @@ class ApiCampusController extends AbstractController
      * @Route("/apiListCampus", name="api_list_campus")
      */
     public function getListCampusApi(){
+
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $listCampus = $campusRepo->findCampus("");
 
@@ -49,5 +50,17 @@ class ApiCampusController extends AbstractController
             $this->addFlash('error', 'impossible de supprimer le Campus');
         }
         return $returnId;
+    }
+
+    /**
+     * @return JsonResponse
+     * @Route("/apiListCampus/{recherche}", name="api_recherche_campus")
+     */
+    public function getListCampusApiRecherche($recherche){
+
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $listCampus = $campusRepo->findCampus($recherche);
+
+        return $this->json(['list_Campus' => $listCampus]);
     }
 }
