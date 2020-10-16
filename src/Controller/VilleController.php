@@ -23,7 +23,7 @@ class VilleController extends AbstractController
     /**
      * @Route("/", name="ville")
      */
-    public function getVilleList(VilleRepository $villeRepository)
+    public function getVilleList()
     {
         return $this->render('ville/index.html.twig', [
             'title' => 'Ville',
@@ -45,9 +45,7 @@ class VilleController extends AbstractController
             $returnId = null;
             $this->addFlash('error', 'impossible de supprimer la ville');
         }
-        //$response = new Response(json_encode($returnId)); $response->headers->set('Content-Type', 'application/json');
-        //return new Response($response);
-        return $returnId;
+        return $this->json(['id' => $returnId]);
     }
 
     /**
