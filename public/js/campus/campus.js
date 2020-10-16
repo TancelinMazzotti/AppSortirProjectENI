@@ -14,26 +14,23 @@
 // //             console.log(response);
 // //         });
 // // }
-function myFunction(){
-    console.log("salut")
-}
 
-console.log("slt")
-// window.onload = loadCampus();
+
+window.onload = loadCampus();
 
 function loadCampus(){
-    console.log("slt")
-    // $.getJSON("https://127.0.0.1:8000/api/Campus/apiListCampus", function (data){
-    //     for(var i = 0; i < Object.keys(data.list_campus).length; i++){
-    //         tableauCampus(data.list_campus[i]);
-    //     }
-    // })
+
+    $.getJSON(ROOL_URL +"api/Campus/apiListCampus/", function (data){
+        for(var i = 0; i < Object.keys(data.list_Campus).length; i++){
+            tableauCampus(data.list_Campus[i]);
+        }
+    })
 }
 
 function tableauCampus(Campus){
-    var newTrHtml = '<tr><td>' + campus.nomCampus + '</td><td class="border p-1">' +
-        '<a href="" onclick="">Modifier</a> - <a href="" onclick="supprimerCampus(' + campus.id + ')">Supprimer</a></td></tr>';
-    document.getElementById("table_campus").innerHTML += newTrHtml;
+    var newTrHtml = '<tr class="campusTable"><td>' + Campus.nomCampus + '</td><td class="border p-1">' +
+        '<a href="" onclick="">Modifier</a> - <a href="" onclick="supprimerCampus(' + Campus.id + ')">Supprimer</a></td></tr>';
+     document.getElementById("table_campus").innerHTML += newTrHtml;
 }
 
 function creerXHR() {
@@ -53,6 +50,19 @@ function supprimerCampus(id){
             document.getElementById(xhr.responseText).remove();
         }
     }
-    xhr.open("GET", "https://127.0.0.1:8000/api/Campus/Supprimer/"+ id, true);
+    xhr.open("GET", ROOL_URL + "api/Campus/Supprimer/"+ id, true);
     xhr.send();
+}
+
+function rechercheCampus() {
+var valeurRecherche = document.getElementById("rechercheCampus").value
+    document.querySelectorAll('.campusTable').forEach(function(a){
+        a.remove()
+    })
+
+    $.getJSON(ROOL_URL + "api/Campus/apiListCampus/"+valeurRecherche, function (data){
+        for(var i = 0; i < Object.keys(data.list_Campus).length; i++){
+            tableauCampus(data.list_Campus[i]);
+        }
+    })
 }
