@@ -29,33 +29,4 @@ class VilleController extends AbstractController
             'title' => 'Ville',
         ]);
     }
-
-    /**
-     * @Route("/Supprimer/{id}", name="supprimer")
-     */
-    public function supprimerVille($id, EntityManagerInterface $em, VilleRepository $villeRepository)
-    {
-        $returnId = $id;
-        try {
-            $supprimerVille = $villeRepository->find(array('id' => $id));
-
-            $em->remove($supprimerVille);
-            $em->flush();
-        } catch (Exception $e) {
-            $returnId = null;
-            $this->addFlash('error', 'impossible de supprimer la ville');
-        }
-        return $this->json(['id' => $returnId]);
-    }
-
-    /**
-     * @param VilleRepository $villeRepository
-     * @return JsonResponse
-     * @Route("/apiListVille", name="api_list_ville")
-     */
-    public function getListVilleApi(VilleRepository $villeRepository){
-        $listVille = $villeRepository->findAll();
-
-        return $this->json(['list_ville' => $listVille]);
-    }
 }
