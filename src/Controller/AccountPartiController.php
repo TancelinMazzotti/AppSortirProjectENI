@@ -77,4 +77,12 @@ class AccountPartiController extends AbstractController
     public function logout(){
 
     }
+
+    /**
+     * @Route("/fogot/pass", name="fogotPass")
+     */
+    public function fogotPassAction(){
+
+        return $this->render('account_parti/fogotPass.html.twig');
+    }
 }

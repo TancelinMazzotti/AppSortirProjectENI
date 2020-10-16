@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiLieuController extends AbstractController
 {
     /**
-     * @Route("/api/lieu/{id}", name="get_lieu")
+     * @Route("/{id}", name="get_lieu")
      */
     public function getLieu(int $id)
     {
@@ -22,6 +22,15 @@ class ApiLieuController extends AbstractController
             ->getRepository(Lieux::class)
             ->findOneBy(array('id' => $id));
 
-        return $this->json($lieu);
+        $result = array(
+            'id' => $lieu->getId(),
+            'nom' => $lieu->getNom(),
+            'rue' => $lieu->getRue(),
+            'codePostal' => $lieu->getVille()->getCodePostal(),
+            'latitude' => $lieu->getLatitude(),
+            'longitude' => $lieu->getLongitude(),
+        );
+
+        return $this->json($result);
     }
 }

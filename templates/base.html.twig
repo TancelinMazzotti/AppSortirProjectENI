@@ -9,7 +9,6 @@
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <script src="{{ asset('js/bootstrap.min.css') }}" type="text/javascript"></script>
         <script>const ROOL_URL = "{{ url('login') }}";</script>
-
     </head>
     {% block script %}
     {% endblock %}
@@ -24,7 +23,7 @@
         {% endfor %}
 
         {% for message in app.flashes('error') %}
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-danger" role="alert">
                 {{ message }}
             </div>
         {% endfor %}

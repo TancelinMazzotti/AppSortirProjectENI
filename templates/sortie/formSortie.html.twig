@@ -20,11 +20,26 @@
                 {% endfor %}
                 </select>
 
-                {{ form_row(form.lieux) }}
-                <label>Rue: </label><p id="p_rue"></p>
-                <label>Code postal: </label><p id="p_code_postal"></p>
-                <label>Latitude: </label><p id="p_latitude"></p>
-                <label>Longitude: </label><p id="p_longitude"></p>
+                {{ form_row(form.lieux, {'attr' :{'onchange': 'onLieuxChanged()'}}) }}
+                <table>
+                    <tr>
+                        <td>Rue:</td>
+                        <td id="rue"></td>
+                    </tr>
+                    <tr>
+                        <td>Code Postal:</td>
+                        <td id="codepostal"></td>
+                    </tr>
+                    <tr>
+                        <td>Latitude:</td>
+                        <td id="latitude"></td>
+                    </tr>
+                    <tr>
+                        <td>Logitude:</td>
+                        <td id="longitude"></td>
+                    </tr>
+                </table>
+
                 {{ form_row(form.organisateur) }}
                 {{ form_row(form.etat) }}
             </div>
@@ -39,5 +54,6 @@
         </div>
         {{ form_end(form) }}
     </div>
-    <script src="/js/sortie/sortie.js"></script>
+
+    <script src="{{ asset('/js/sortie/sortie.js') }}"></script>
 {% endblock %}

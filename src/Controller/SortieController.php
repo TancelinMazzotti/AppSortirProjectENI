@@ -12,10 +12,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/sortie", name="sortie_")
+ * Class SortieController
+ * @package App\Controller
+ */
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie/show/{id}", name="sortieShow")
+     * @Route("/show/{id}", name="sortieShow")
      */
     public function show(int $id)
     {
@@ -29,13 +34,13 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/sortie/create", name="sortieCreate")
+     * @Route("/create", name="sortieCreate")
      */
     public function create(Request $request, EntityManagerInterface $entityManager)
     {
         $sortie = new Sortie();
 
-        $villes =  $this->getDoctrine()
+        $villes = $this->getDoctrine()
             ->getRepository(Ville::class)
             ->findAll();
 
@@ -49,6 +54,7 @@ class SortieController extends AbstractController
 
             return $this->render('sortie/create.html.twig', [
                 'form' => $form->createView(),
+                'villes' => $villes,
                 'createStatus' => $createStatus
             ]);
 

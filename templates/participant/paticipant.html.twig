@@ -8,14 +8,13 @@
 
     <div class="container">
         <div class="col-5 float-left">
-            <div class="card" style="width: 22rem;">
                 {% if participant[0].urlPhoto == null or participant[0].urlPhoto == "" %}
                     <p> pas encore de photo</p>
                 {% else %}
-                <img class="card-img-top" src="{{ asset('Img/'~ participant[0].urlPhoto ) }}" alt="Card image cap">
+                <div class="card" style="width: 22rem;">
+                    <img class="card-img-top" src="{{ asset('Img/'~ participant[0].urlPhoto ) }}" alt="Card image cap">
+                </div>
                 {% endif %}
-            </div>
-            {#<img src="{{ asset('Img/'~ participant[0].urlPhoto ) }}">#}
         </div>
         <div class="float-left">
         <p>Prenom : {{ participant[0].prenom }}</p><br/>
@@ -23,10 +22,11 @@
         <p>Téléphone : {{ participant[0].telephone }}</p><br/>
         <p>Email : {{ participant[0].email }}</p><br/>
         <p>Campus : {{ participant[0].campus.nomCampus }}</p><br/>
-        <a class="button" href="{{ path('home') }}">Retour</a><br/>
+            {%  if is_granted('ROLE_ADMIN') %}
+                <a class="button" href="{{ path('participant_list') }}">Retour</a><br/>
+            {% else %}
+                <a class="button" href="{{ path('home') }}">Retour</a><br/>
+            {% endif %}
         </div>
     </div>
-
-
-
 {% endblock %}
