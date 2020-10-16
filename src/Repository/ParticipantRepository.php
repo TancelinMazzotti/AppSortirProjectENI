@@ -54,7 +54,5 @@ class ParticipantRepository extends ServiceEntityRepository
             ->join('p.campus','c')
             ->getQuery()
             ->getResult();
-
-
     }
 }

@@ -189,17 +189,4 @@ class ParticipantController extends AbstractController
             'form_int' => $participantForm->createView(),
         ]);
     }
-
-    /**
-     * @Route("/faireDelaSerialisation/test", name="test")
-     */
-    public function getApi(ParticipantRepository $participantRepository){
-
-        $part = $participantRepository->findAll();
-
-        $res = new Response();
-        $res->setContent(json_encode(['list' => $part]));
-
-        return $res;
-    }
 }
