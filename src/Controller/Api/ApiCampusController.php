@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api/Campus", name="api_campus_")
- * Class CampusController
+ * Class ApiCampusController
  * @package App\Controller\Api
  */
 class ApiCampusController extends AbstractController
