@@ -23,15 +23,15 @@
                 <th>Organisateur</th>
                 <th colspan="2">Action</th>
             </tr>
-            {%  for sortie in listSortie %}
+            {%  for inscrit in listSortie %}
                 <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.dateDebut | date("m/d/y") }}</td>
-                    <td>{{ sortie.dateCloture | date("m/d/y") }}</td>
-                    <td> / {{ sortie.nbInscriptionMax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{{ inscrit[0].sortie.nom }}</td>
+                    <td>{{ inscrit[0].sortie.dateDebut | date("m/d/y") }}</td>
+                    <td>{{ inscrit[0].sortie.dateCloture | date("m/d/y") }}</td>
+                    <td>{{ inscrit.inscrit }} / {{ inscrit[0].sortie.nbInscriptionMax }}</td>
+                    <td>{{ inscrit[0].sortie.etat.libelle }}</td>
                     <td></td>
-                    <td>{{ sortie.organisateur.pseudo }}</td>
+                    <td>{{ inscrit[0].sortie.organisateur.pseudo }}</td>
                     <td></td>
                 </tr>
             {% endfor %}
