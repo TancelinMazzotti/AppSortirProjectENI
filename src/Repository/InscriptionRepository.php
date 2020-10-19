@@ -47,4 +47,24 @@ class InscriptionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // SELECT COUNT(inscription.participant_id) as "nd inscrit" FROM inscription RIGHT JOIN sortie on
+    // sortie.id = inscription.sortie_id GROUP BY inscription.sortie_id
+
+    public function getInscriptionAll(){
+
+        return $this->createQueryBuilder('i')
+            ->select('i,count(i.participant) as inscrit')
+            ->join('i.sortie','s')
+            ->join('s.etat','e')
+            ->join('i.participant','p')
+            ->groupBy('i.sortie')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCountParticipantForIncrip($id){
+
+
+    }
 }

@@ -99,4 +99,13 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getAllSortieEtatParticipant(){
+
+        return $this->createQueryBuilder('s')
+            ->join('s.etat','e')
+            ->join('s.organisateur','p')
+            ->getQuery()
+            ->getResult();
+    }
 }

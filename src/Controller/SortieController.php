@@ -6,6 +6,7 @@ use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\SortieType;
+use App\Repository\SortieRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
