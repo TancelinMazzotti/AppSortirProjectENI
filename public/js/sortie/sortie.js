@@ -6,7 +6,7 @@ function onVilleChanged(){
 }
 
 function requestLoadLieuxByVille(idVille){
-    let url = ROOL_URL + "api/ville/" + idVille + "/lieux"
+    let url = ROOL_URL + "api/Ville/" + idVille + "/lieux"
     let httpRequest = new XMLHttpRequest()
     httpRequest.onreadystatechange = responseLoadLieuxByVille
     httpRequest.open("GET", url, true);

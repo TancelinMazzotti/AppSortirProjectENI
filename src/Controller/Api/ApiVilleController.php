@@ -4,6 +4,7 @@
 namespace App\Controller\Api;
 
 
+use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use mysql_xdevapi\Exception;
@@ -45,5 +46,25 @@ class ApiVilleController extends AbstractController
         $listVille = $villeRepository->findAll();
 
         return $this->json(['list_ville' => $listVille]);
+    }
+
+    /**
+     * @return JsonResponse
+     * @Route("/{id}/lieux/", name="apiVilleLieux")
+     */
+    public function getLieuxByVille(int $id)
+    {
+        $ville =  $this->getDoctrine()
+            ->getRepository(Ville::class)
+            ->findOneBy(array('id' => $id));
+
+        $result = array();
+        foreach ($ville->getLieux() as $lieux){
+            array_push($result, [
+                'id' => $lieux->getId(),
+                'nom' => $lieux->getNom()
+            ]);
+        }
+        return  $this->json($result);
     }
 }

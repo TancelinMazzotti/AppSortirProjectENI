@@ -67,7 +67,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/update/{id}", name="sortieCreate")
+     * @Route("/update/{id}", name="sortieUpdate")
      */
     public function update(int $id, Request $request, EntityManagerInterface $entityManager)
     {
