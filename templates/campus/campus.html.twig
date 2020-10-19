@@ -8,11 +8,11 @@
 
 {% block main %}
 <h1 class="text-center">Gérer les campus</h1>
-    <p>Filtrer les sites</p>
-    <label for="rechercheCampus">Le Nom Contient: </label>
+    <p class="ml-4 h4">Filtrer les sites</p>
+    <label class="ml-5" for="rechercheCampus">Le Nom Contient: </label>
     <input id="rechercheCampus"> <button id="rechercheCampusBtn" onClick="rechercheCampus()" >Rechercher</button>
 <div class="example-wrapper">
-    <table class="table table-bordered">
+    <table class="table table-bordered mr-5 ml-5 w-75 bg-white ">
         <thead>
         <tr>
             <th scope="col">Campus</th>
@@ -21,16 +21,9 @@
         </thead>
         <tbody id="table_campus">
 
-{#        {% for camp in campus %}#}
-{#            <tr>#}
-{#                <td>{{ camp.nomCampus}} </td>#}
-{#                <td><a class="btn btn-outline-warning" href="#" role="button">Modifier</a><a class="btn btn-outline-danger" href="{{ path('campus_remove', {id: camp.id})}}" role="button">Supprimer</a></td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-
         <tr >
             <td>{{ form_start(campusForm) }}{{ form_widget(campusForm) }}</td>
-            <td><button class="btn btn-outline-success" type="submit">Ajouter</button>
+            <td><button class="btn btn btn-success" type="submit">Ajouter</button>
                 {{ form_end(campusForm) }}</td>
         </tr>
         </tbody>

@@ -9,6 +9,7 @@ use App\Repository\CampusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class ApiCampusController extends AbstractController
 
     /**
      * @return JsonResponse
-     * @Route("/apiListCampus", name="api_list_campus")
+     * @Route("/ListCampus", name="list_campus")
      */
     public function getListCampusApi(){
 
@@ -49,18 +50,43 @@ class ApiCampusController extends AbstractController
             $returnId = null;
             $this->addFlash('error', 'impossible de supprimer le Campus');
         }
-        return $returnId;
+        return $this->json(['id' => $returnId]);
     }
+//api/Campus/ListCampusRecherche/
 
     /**
      * @return JsonResponse
-     * @Route("/apiListCampus/{recherche}", name="api_recherche_campus")
+     * @Route("/ListCampus/{recherche}", name="recherche_campus")
      */
     public function getListCampusApiRecherche($recherche){
 
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+
         $listCampus = $campusRepo->findCampus($recherche);
 
         return $this->json(['list_Campus' => $listCampus]);
     }
+
+    /**
+     * @Route("/updateCampus/{nom}/{id}", name="update_campus")
+     */
+    public function updateCampus($nom,$id){
+
+        $returnId = $id;
+
+        try {
+
+            $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+            $campusRepo->updateCampus($nom,$id);
+
+
+        } catch (Exception $e) {
+            $returnId = null;
+            $this->addFlash('error', 'impossible d\'update le Campus');
+        }
+        return $this->json(['id' => $returnId]);
+
+    }
+
+
 }
