@@ -40,6 +40,18 @@ class CampusRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function updateCampus($nom,$id)
+    {
+        $em = $this->getEntityManager();
+        $sql ="UPDATE App\Entity\Campus c 
+        SET c.nomCampus =  :nom
+        Where c.id = :id ";
+        $query = $em->createQuery($sql);
+        $query->setParameter("nom",$nom);
+        $query->setParameter("id",$id);
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Campus[] Returns an array of Campus objects
     //  */
