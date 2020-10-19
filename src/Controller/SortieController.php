@@ -66,4 +66,38 @@ class SortieController extends AbstractController
             'villes' => $villes
         ]);
     }
+
+    /**
+     * @Route("/update/{id}", name="sortieUpdate")
+     */
+    public function update(int $id, Request $request, EntityManagerInterface $entityManager)
+    {
+        $sortie = $this->getDoctrine()
+            ->getRepository(Sortie::class)
+            ->findOneBy(array('id' => $id));
+
+        $villes = $this->getDoctrine()
+            ->getRepository(Ville::class)
+            ->findAll();
+
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $entityManager->flush();
+            $updateStatus = $form->isValid();
+
+            return $this->render('sortie/update.html.twig', [
+                'form' => $form->createView(),
+                'villes' => $villes,
+                'updateStatus' => $updateStatus
+            ]);
+
+        }
+
+        return $this->render('sortie/update.html.twig', [
+            'form' => $form->createView(),
+            'villes' => $villes
+        ]);
+    }
 }
