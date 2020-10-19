@@ -55,7 +55,8 @@ class ApiVilleController extends AbstractController
      * @return JsonResponse
      * @Route("/AddVille", name="add_ville")
      */
-    public function ajouterVilleApi(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq){
+    public function ajouterVilleApi(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq)
+    {
         try {
             $nom = $rq->request->get("nom");
             $cp = $rq->request->get("cp");
@@ -71,8 +72,28 @@ class ApiVilleController extends AbstractController
                 throw new \Exception('nom ou/et cp null.');
             }
         } catch (\Exception $e) {
-            $this->addFlash('error', 'impossible d\'ajouter la ville : \n'.$e->getCode().'\n'.$e->getMessage());
+            $this->addFlash('error', 'impossible d\'ajouter la ville : \n' . $e->getCode() . '\n' . $e->getMessage());
         }
         return $this->json(['ville' => $insertedVille]);
+    }
+
+    /**
+     * @return JsonResponse
+     * @Route("/{id}/lieux/", name="apiVilleLieux")
+     */
+    public function getLieuxByVille(int $id)
+    {
+        $ville =  $this->getDoctrine()
+            ->getRepository(Ville::class)
+            ->findOneBy(array('id' => $id));
+
+        $result = array();
+        foreach ($ville->getLieux() as $lieux){
+            array_push($result, [
+                'id' => $lieux->getId(),
+                'nom' => $lieux->getNom()
+            ]);
+        }
+        return  $this->json($result);
     }
 }

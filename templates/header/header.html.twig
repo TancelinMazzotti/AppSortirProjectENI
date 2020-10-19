@@ -1,25 +1,25 @@
-<ul class="nav justify-content-end">
-    <li class="nav-item">
-        <p class="nav-link active"> Bienvenue : {{ app.user.pseudo }} </p>
+<ul class="nav justify-content-end bg-secondary">
+    <li class="nav-item text-left">
+        <p  class="nav-link active h4 "> Bienvenue : {{ app.user.pseudo }} </p>
     </li>
     {%  if is_granted('ROLE_ADMIN') %}
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('ville_ville') }}">Villes</a>
+        <a class="nav-link active text-white" href="{{ path('ville_ville') }}">Villes</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('campus_home') }} ">Campus</a>
+        <a class="nav-link active text-white" href="{{ path('campus_home') }} ">Campus</a>
     </li>
         <li class="nav-item">
-            <a class="nav-link active" href="{{ path('participant_list') }}">Les profils</a>
+            <a class="nav-link active text-white" href="{{ path('participant_list') }}">Les profils</a>
         </li>
     {% endif %}
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('home') }}">Accueil</a>
+        <a class="nav-link active text-white" href="{{ path('home') }}">Accueil</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('participant_view' , {'id' : app.user.id}) }}">Mon profil</a>
+        <a class="nav-link active text-white" href="{{ path('participant_view' , {'id' : app.user.id}) }}">Mon profil</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="{{ path('logOut') }}">Se déconnecter</a>
+        <a class="nav-link active text-white" href="{{ path('logOut') }}">Se déconnecter</a>
     </li>
 </ul>
