@@ -64,34 +64,22 @@ function responseLoadLieu(){
 
 function changeLieu(lieu){
     let rue = document.getElementById('rue')
-    let elementCodePostal = document.getElementById('codepostal')
+    let codePostal = document.getElementById('codepostal')
     let latitude = document.getElementById('latitude')
     let longitude = document.getElementById('longitude')
-    console.log(elementCodePostal)
-    console.log(lieu)
 
     if(lieu != null) {
         rue.innerHTML = lieu.rue
-        elementCodePostal = lieu.codePostal
+        codePostal = lieu.codePostal
         latitude.innerHTML = lieu.latitude
         longitude.innerHTML = lieu.longitude
     }
     else {
         rue.innerHTML = ''
-        elementCodePostal = ''
+        codePostal = ''
         latitude.innerHTML = ''
         longitude.innerHTML = ''
     }
 }
 
 onVilleChanged()
-
-function onOpenModal(){
-    let modal = document.getElementById('myModal')
-    modal.setAttribute('style', 'display: flex');
-}
-
-function onCloseModal(){
-    let modal = document.getElementById('myModal')
-    modal.setAttribute('style', 'display: none');
-}
