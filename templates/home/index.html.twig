@@ -8,20 +8,21 @@
     <h1> {{ title }}</h1>
 
     <div class="row">
-        <p>Flitre sur les Sortie</p>
-
-        {{ form_start(formFilter) }}
-        {{ form_row(formFilter.campus) }}
-        {{ form_row(formFilter.nom) }}
-        {{ form_row(formFilter.dateDebut) }}
-        {{ form_row(formFilter.dateCloture) }}
-        {{ form_row(formFilter.isOrganisateur) }}
-        {{ form_row(formFilter.isInscrit) }}
-        {{ form_row(formFilter.notInscrit) }}
-        {{ form_row(formFilter.isOnlyOld) }}
-        <button type="submit">Valider</button>
-        {{ form_end(formFilter) }}
-
+        <div class="col">
+            {{ form_start(formFilter) }}
+            {{ form_row(formFilter.campus) }}
+            {{ form_row(formFilter.nom) }}
+            {{ form_row(formFilter.dateDebut) }}
+            {{ form_row(formFilter.dateCloture) }}
+        </div>
+        <div class="col">
+            {{ form_row(formFilter.isOrganisateur) }}
+            {{ form_row(formFilter.isInscrit) }}
+            {{ form_row(formFilter.notInscrit) }}
+            {{ form_row(formFilter.isOnlyOld) }}
+            <button type="submit">Valider</button>
+            {{ form_end(formFilter) }}
+        </div>
     </div>
     <div class="row text-center">
         <table class="table">

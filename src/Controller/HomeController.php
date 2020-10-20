@@ -42,11 +42,15 @@ class HomeController extends AbstractController
                 ->findForHome($utilisateur, $campus, $nom, $dateDebut, $dateCloture, $isOrganisateur, $isInscrit, $notInscrit, $isOnlyOld);
 
             foreach ($sorties as $sortie){
+                $nbInscrit = $this->getDoctrine()->getRepository(Sortie::class)
+                    ->countParticipant($sortie);
+
                 array_push($listSortie, [
                     'sortie' => $sortie,
-                    'nbInscrits' => 1
+                    'nbInscrits' => $nbInscrit[0]["inscrit"]
                 ]);
             }
+            dd($listSortie);
         }
 
         return $this->render('home/index.html.twig', [
