@@ -58,9 +58,15 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if($participant != null && !$isInscrit && $notInscrit){
-            $queryBuilder->leftJoin('s.inscriptions', 'i')
-                ->andWhere('i.participant != :participant')
-                ->setParameter('participant', $participant);
+            $subQuery = $this->_em->createQueryBuilder()
+                ->select("IDENTITY(i.sortie)")
+                ->from(Inscription::class, 'i')
+                ->andWhere('i.participant = :participant')
+                ->setParameter("participant", $participant)
+                ->getQuery()->getArrayResult();
+
+            $queryBuilder->andWhere($queryBuilder->expr()->notIn("s.id", ":list"))
+                ->setParameter("list", $subQuery);
         }
 
         if(!$oldSortie){
