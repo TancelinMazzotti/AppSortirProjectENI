@@ -22,10 +22,10 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findForHome($participant, $campus, string $nom, $debut, $fin, $isOrganisateur, $isInscrit, $notInscrit, $oldSortie)
+    public function findForHome($participant, $campus, $nom, $debut, $fin, $isOrganisateur, $isInscrit, $notInscrit, $oldSortie)
     {
         $queryBuilder = $this->createQueryBuilder('s');
-            //->from(Sortie::class, 's');
+
         if ($campus != null){
             $queryBuilder->andWhere('s.campus = :campus')
                 ->setParameter('campus', $campus);
