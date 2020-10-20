@@ -45,15 +45,16 @@ class HomeController extends AbstractController
             $sorties = $this->getDoctrine()->getRepository(Sortie::class)
                 ->findForHome($utilisateur, $campus, $nom, $dateDebut, $dateCloture, $isOrganisateur, $isInscrit, $notInscrit, $isOnlyOld);
 
-            $nbinscrit = $sortieRepository->getAllSortieEtatParticipant();
 
-            foreach ($sorties as $sortie => $val){
+            foreach ($sorties as $sortie){
+                $nbInscrit = $this->getDoctrine()->getRepository(Sortie::class)
+                    ->countParticipant($sortie);
+
                 array_push($listSortie, [
-                    'sortie' => $val,
-                    'nbInscrits' => $nbinscrit[$sortie],
+                    'sortie' => $sortie,
+                    'nbInscrits' => $nbInscrit[0]["inscrit"]
                 ]);
             }
-            //dd($listSortie);
         }
 
         return $this->render('home/index.html.twig', [

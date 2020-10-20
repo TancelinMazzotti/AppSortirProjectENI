@@ -65,10 +65,20 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if(!$oldSortie){
-
+            $queryBuilder->andWhere('s.dateCloture >= CURRENT_DATE()');
         }
 
 
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function countParticipant(Sortie $sortie){
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->select("count(i.participant) as inscrit")
+            ->join("s.inscriptions", "i")
+            ->andWhere("s.id = :id")
+                ->setParameter("id", $sortie->getId())
+        ;
         return $queryBuilder->getQuery()->getResult();
     }
 
