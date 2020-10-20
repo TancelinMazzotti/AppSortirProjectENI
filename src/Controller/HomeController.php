@@ -21,10 +21,6 @@ class HomeController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $listSortie = array();
 
-        $sortieAll = $sortieRepository->getAllSortieEtatParticipant();
-
-        //dd($sortieAll);
-
         $form = $this->createForm(SortieFilterType::class);
         $form->handleRequest($request);
 
@@ -32,31 +28,26 @@ class HomeController extends AbstractController
         $utilisateur = $this->getDoctrine()->getRepository(Participant::class)
             ->findOneBy(array('pseudo' => $username));
 
-        if($form->isSubmitted()) {
-            $campus = $form['campus']->getData();
-            $nom = $form['nom']->getData();
-            $dateDebut = $form['dateDebut']->getData();
-            $dateCloture = $form['dateCloture']->getData();
-            $isOrganisateur = $form['isOrganisateur']->getData();
-            $isInscrit = $form['isInscrit']->getData();
-            $notInscrit = $form['notInscrit']->getData();
-            $isOnlyOld = $form['isOnlyOld']->getData();
+        $campus = $form['campus']->getData();
+        $nom = $form['nom']->getData();
+        $dateDebut = $form['dateDebut']->getData();
+        $dateCloture = $form['dateCloture']->getData();
+        $isOrganisateur = $form['isOrganisateur']->getData();
+        $isInscrit = $form['isInscrit']->getData();
+        $notInscrit = $form['notInscrit']->getData();
+        $isOnlyOld = $form['isOnlyOld']->getData();
 
-            $sorties = $this->getDoctrine()->getRepository(Sortie::class)
-                ->findForHome($utilisateur, $campus, $nom, $dateDebut, $dateCloture, $isOrganisateur, $isInscrit, $notInscrit, $isOnlyOld);
+        $sorties = $this->getDoctrine()->getRepository(Sortie::class)
+            ->findForHome($utilisateur, $campus, $nom, $dateDebut, $dateCloture, $isOrganisateur, $isInscrit, $notInscrit, $isOnlyOld);
 
+        foreach ($sorties as $sortie){
+            $nbInscrit = $this->getDoctrine()->getRepository(Sortie::class)
+                ->countParticipant($sortie);
 
-            foreach ($sorties as $sortie){
-                $nbInscrit = $this->getDoctrine()->getRepository(Sortie::class)
-                    ->countParticipant($sortie);
-                //dd($nbInscrit[0]);
-                array_push($listSortie, [
-                    'sortie' => $sortie,
-                    'nbInscrits' => $nbInscrit[0]
-                ]);
-
-                //dd($listSortie);
-            }
+            array_push($listSortie, [
+                'sortie' => $sortie,
+                'nbInscrits' => $nbInscrit[0]
+            ]);
         }
 
         return $this->render('home/index.html.twig', [
