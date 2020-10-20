@@ -51,8 +51,12 @@ class SortieRepository extends ServiceEntityRepository
     public function getAllSortieEtatParticipant(){
 
         return $this->createQueryBuilder('s')
+            ->leftJoin('s.inscriptions','i')
+            ->select('s,count(i.participant) as inscrip')
             ->join('s.etat','e')
             ->join('s.organisateur','p')
+            ->leftJoin('i.participant','pAll')
+            ->groupBy('s.id')
             ->getQuery()
             ->getResult();
     }

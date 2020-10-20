@@ -12,19 +12,17 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
-    public function index(InscriptionRepository $inscriptionRepository, SortieRepository $sortieRepository)
+    public function index(SortieRepository $sortieRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        //$sortieAll = $sortieRepository->getAllSortieEtatParticipant();
+        $sortieAll = $sortieRepository->getAllSortieEtatParticipant();
 
-        $incripAll = $inscriptionRepository->getInscriptionAll();
-
-        //dd($incripAll);
+        //dd($sortieAll);
 
         return $this->render('home/index.html.twig', [
             'title' => 'Acceuil',
-            'listSortie' => $incripAll,
+            'listSortie' => $sortieAll,
         ]);
     }
 }

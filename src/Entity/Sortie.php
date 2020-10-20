@@ -230,4 +230,13 @@ class Sortie
         return $this;
     }
 
+    public function estInscrit($user){
+        foreach ($this->getInscriptions() as $inscription){
+            if ($user == $inscription->getParticipant()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

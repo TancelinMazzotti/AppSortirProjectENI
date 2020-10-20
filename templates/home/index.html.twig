@@ -23,19 +23,39 @@
                 <th>Organisateur</th>
                 <th colspan="2">Action</th>
             </tr>
-            {%  for inscrit in listSortie %}
+            {%  for sortie in listSortie %}
                 <tr>
-                    <td>{{ inscrit[0].sortie.nom }}</td>
-                    <td>{{ inscrit[0].sortie.dateDebut | date("m/d/y") }}</td>
-                    <td>{{ inscrit[0].sortie.dateCloture | date("m/d/y") }}</td>
-                    <td>{{ inscrit.inscrit }} / {{ inscrit[0].sortie.nbInscriptionMax }}</td>
-                    <td>{{ inscrit[0].sortie.etat.libelle }}</td>
+                    <td>{{ sortie[0].nom }}</td>
+                    <td>{{ sortie[0].dateDebut | date("m/d/y") }}</td>
+                    <td>{{ sortie[0].dateCloture | date("m/d/y") }}</td>
+                    <td>{{ sortie.inscrip }} / {{ sortie[0].nbInscriptionMax }}</td>
+                    <td>{{ sortie[0].etat.libelle }}</td>
                     <td></td>
-                    <td>{{ inscrit[0].sortie.organisateur.pseudo }}</td>
-                    <td></td>
+                    <td><a href="{{ path('participant_view', {'id': sortie[0].organisateur.id }) }}"> {{ sortie[0].organisateur.pseudo }}</a></td>
+                    <td>
+                    {% if app.user.pseudo == sortie[0].organisateur.pseudo and sortie[0].etat.libelle == "Créée" %}
+                        <a href="{{ path('sortie_sortieUpdate' , {'id' : sortie[0].id }) }}">Modifier</a>
+                    {% else %}
+                        <a href="{{ path('sortie_sortieShow', {'id' : sortie[0].id }) }}">Afficher</a>
+                    {% endif %}
+                    {% if app.user.pseudo != sortie[0].organisateur.pseudo %}
+                       {% if sortie[0].estInscrit(app.user) %}
+                           <a href="{{ path('inscription_deinscrir', {'idSortie' : sortie[0].id , 'idUser' : app.user.id}) }}">Se desister</a>
+                       {% else %}
+                           <a href="{{ path('inscription_sinscrir', {'idSortie' : sortie[0].id , 'idUser' : app.user.id}) }}">s'incrir</a>
+                       {% endif %}
+                    {% else %}
+                        <a href="#">Annuller</a>
+                    {% endif%}
+                    </td>
                 </tr>
             {% endfor %}
         </table>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <a  href="{{ path('sortie_sortieCreate') }}" class="btn btn-success">Crée une sortie</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
