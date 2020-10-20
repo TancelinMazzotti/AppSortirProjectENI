@@ -6,7 +6,7 @@ function loadVille(){
             tableauVille(data.list_ville[i]);
         }
         tableauLigneAjout();
-    })
+    });
 }
 
 function tableauVille(ville){
@@ -18,8 +18,8 @@ function tableauVille(ville){
 function tableauLigneAjout(){
     var trAjoutHtml = '<tr id="ajout_ville"><td class="border p-1" id="nom"><input id="inp_nom" type="text"></td>' +
         '<td class="border p-1" id="cp"><input id="inp_cp" type="text"></td>' +
-        '<td class="border p-1"><a onclick="ajouterVille(document.getElementById(\'ajout_ville\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\'),' +
-        'document.getElementById(\'ajout_ville\').children.namedItem(\'cp\').children.namedItem(\'inp_cp\'))" href="#">Ajouter</a></td></tr>';
+        '<td class="border p-1"><a onclick="ajouterVille(document.getElementById(\'ajout_ville\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\').value,' +
+        'document.getElementById(\'ajout_ville\').children.namedItem(\'cp\').children.namedItem(\'inp_cp\').value)" href="#">Ajouter</a></td></tr>';
     document.getElementById("table_ville").innerHTML += trAjoutHtml;
 }
 
@@ -27,10 +27,8 @@ function supprimerVille(id){
     $.getJSON(ROOL_URL + "api/Ville/Supprimer/"+ id, function (data){
         if (data.id != null){
             document.getElementById(data.id).remove();
-        } else {
-
         }
-    })
+    });
 }
 
 function modifierVille(id, nom, cp){
@@ -38,7 +36,16 @@ function modifierVille(id, nom, cp){
 }
 
 function ajouterVille(nom, cp){
-
-    console.log(nom,cp);
-
+    if (nom !== "" && cp !== "") {
+        var villeAdd = {'nom': nom, 'cp': cp};
+        $.post(ROOL_URL + "api/Ville/AddVille", villeAdd, function (data, textStatus) {
+            console.log(data);
+            if (textStatus === "success" && data.ville != null && data.ville.id != null && data.ville.nom != null && data.ville.codePostal != null) {
+                tableauVille(data.ville);
+                document.getElementById('ajout_ville').before(document.getElementById(data.ville.id))
+            }
+        }, "json");
+    } else {
+        alert('les champs Ville et Code postal doivent être remplis')
+    }
 }

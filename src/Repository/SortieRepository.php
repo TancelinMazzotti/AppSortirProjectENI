@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Campus;
+use App\Entity\Inscription;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +20,56 @@ class SortieRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
+    }
+
+    public function findForHome($participant, $campus, $nom, $debut, $fin, $isOrganisateur, $isInscrit, $notInscrit, $oldSortie)
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+
+        if ($campus != null){
+            $queryBuilder->andWhere('s.campus = :campus')
+                ->setParameter('campus', $campus);
+        }
+
+        if($nom != null && strlen($nom) > 1){
+            $queryBuilder->andWhere('s.nom LIKE :nomSortie')
+                ->setParameter('nomSortie', "%".$nom."%");
+        }
+
+        if ($debut != null){
+            $queryBuilder->andWhere('s.dateDebut >= :dateDebut')
+                ->setParameter('dateDebut', $debut);
+        }
+
+        if ($fin != null){
+            $queryBuilder->andWhere('s.dateCloture <= :dateCloture')
+                ->setParameter('dateCloture', $fin);
+        }
+
+        if($participant != null && $isOrganisateur){
+            $queryBuilder->andWhere('s.organisateur = :organisateur')
+                ->setParameter('organisateur', $participant);
+        }
+
+        if($participant != null && $isInscrit && !$notInscrit){
+            $queryBuilder->innerJoin('s.inscriptions', 'i')
+                ->andWhere('i.participant = :participant')
+                ->setParameter('participant', $participant);
+        }
+
+        if($participant != null && !$isInscrit && $notInscrit){
+            $queryBuilder->leftJoin('s.inscriptions', 'i')
+                ->select('count(i.participant) as inscrip')
+                ->andWhere('i.participant != :participant')
+                ->setParameter('participant', $participant);
+        }
+
+        if(!$oldSortie){
+
+        }
+
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     // /**
@@ -52,7 +105,7 @@ class SortieRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.inscriptions','i')
-            ->select('s,count(i.participant) as inscrip')
+            ->select('count(i.participant) as inscrip')
             ->join('s.etat','e')
             ->join('s.organisateur','p')
             ->leftJoin('i.participant','pAll')
