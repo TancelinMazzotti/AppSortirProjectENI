@@ -43,9 +43,9 @@
                     <td>{{ sortie.sortie.dateDebut | date("m/d/y") }}</td>
                     <td>{{ sortie.sortie.dateCloture | date("m/d/y") }}</td>
                     {#<td>{{ sortie.inscrip }} / {{ sortie.nbInscriptionMax }}</td>#}
-                    <td>{{ sortie.nbInscrits }} / {{ sortie.sortie.nbInscriptionMax }}</td>
+                    <td>{{ sortie.nbInscrits.inscrip }} / {{ sortie.sortie.nbInscriptionMax }}</td>
                     <td>{{ sortie.sortie.etat.libelle }}</td>
-                    <td></td>
+                    <td>{{ sortie.sortie.estInscrit(app.user) ? 'OUI' : '' }}</td>
                     <td><a href="{{ path('participant_view', {'id': sortie.sortie.organisateur.id }) }}"> {{ sortie.sortie.organisateur.pseudo }}</a></td>
                     <td>
                     {% if app.user.pseudo == sortie.sortie.organisateur.pseudo and sortie.sortie.etat.libelle == "Créée" %}

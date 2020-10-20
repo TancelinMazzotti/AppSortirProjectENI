@@ -59,7 +59,6 @@ class SortieRepository extends ServiceEntityRepository
 
         if($participant != null && !$isInscrit && $notInscrit){
             $queryBuilder->leftJoin('s.inscriptions', 'i')
-                ->select('count(i.participant) as inscrip')
                 ->andWhere('i.participant != :participant')
                 ->setParameter('participant', $participant);
         }
@@ -74,7 +73,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function countParticipant(Sortie $sortie){
         $queryBuilder = $this->createQueryBuilder('s')
-            ->select("count(i.participant) as inscrit")
+            ->select('count(i.participant) as inscrip')
             ->join("s.inscriptions", "i")
             ->andWhere("s.id = :id")
                 ->setParameter("id", $sortie->getId())

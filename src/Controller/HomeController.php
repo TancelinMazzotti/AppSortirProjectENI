@@ -49,11 +49,13 @@ class HomeController extends AbstractController
             foreach ($sorties as $sortie){
                 $nbInscrit = $this->getDoctrine()->getRepository(Sortie::class)
                     ->countParticipant($sortie);
-
+                //dd($nbInscrit[0]);
                 array_push($listSortie, [
                     'sortie' => $sortie,
-                    'nbInscrits' => $nbInscrit[0]["inscrit"]
+                    'nbInscrits' => $nbInscrit[0]
                 ]);
+
+                //dd($listSortie);
             }
         }
 
