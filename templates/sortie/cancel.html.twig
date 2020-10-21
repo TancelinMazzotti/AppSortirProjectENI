@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cancel!{% endblock %}
+
+{% block main %}
+    <h2 class="text-center mb-5">Annuler une sortie</h2>
+    <div class="container ">
+        <div class="row justify-content-md-center mb-2">
+            <div class="col col-lg-2">
+                Nom de la sortie :
+            </div>
+            <div class="col col-lg-2">
+                {{ sortie.nom }}
+            </div>
+        </div>
+        <div class="row justify-content-md-center mb-2">
+            <div class="col col-lg-2">
+                Date de la sortie:
+            </div>
+            <div class="col col-lg-2">
+                {{ sortie.dateDebut | date("d/m/Y")}}
+            </div>
+        </div>
+        <div class="row justify-content-md-center mb-2">
+            <div class="col col-lg-2">
+                Campus:
+            </div>
+            <div class="col col-lg-2">
+                {{ sortie.campus.nomCampus }}
+            </div>
+        </div>
+        <div class="row justify-content-md-center mb-2">
+            <div class="col col-lg-2">
+                Lieu:
+            </div>
+            <div class="col col-lg-2">
+                {{ sortie.lieux.nom }} {{ sortie.lieux.ville.codepostal}} {{ sortie.lieux.ville.nom }}
+            </div>
+        </div>
+        <div class="row justify-content-md-center mb-2">
+            <div class="col col-lg-2">
+                {{ form_start(form) }}
+                {{ form_label(form.motif) }}
+
+            </div>
+            <div class="col col-lg-2">
+                {{ form_widget(form.motif) }}
+
+            </div>
+        </div>
+        <div class="row justify-content-md-center mb-2">
+
+                <button class="btn btn-outline-success mr-4">Enregistrer</button>
+
+
+                <button class="btn btn-outline-danger">Annuler</button>
+
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

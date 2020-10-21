@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 /**
- * @Route("/Campus", name="campus_")
+ * @Route("/campus", name="campus_")
  * Class CampusController
  * @package App\Controller
  */

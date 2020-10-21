@@ -2,25 +2,28 @@ window.onload = loadCampus();
 
 function loadCampus(){
 
-    $.getJSON(ROOL_URL +"api/Campus/ListCampus/", function (data){
+    $.getJSON(ROOL_URL +"api/campus/ListCampus/", function (data){
         for(var i = 0; i < Object.keys(data.list_Campus).length; i++){
             tableauCampus(data.list_Campus[i]);
         }
+        tableauLigneAjout();
     })
 }
 
 function tableauCampus(Campus){
     var newTrHtml = '<tr id="' + Campus.id + '" class="campusTable"><td id="camp' + Campus.id + '">' + Campus.nomCampus + '</td><td class="border p-1">' +
         '<a  onclick="modifierCampus(' + Campus.id + ')" class="text-warning" href="#">Modifier</a> - <a  onclick="supprimerCampus(' + Campus.id + ')" class="text-danger" href="#">Supprimer</a></td></tr>';
-     document.getElementById("table_campus").innerHTML += newTrHtml;
-}
-// var newTrHtml = '<tr id="' + ville.id + '"><td>' + ville.nom + '</td><td>' + ville.codePostal + '</td><td class="border p-1">' +
-//     '<a href="" onclick="">Modifier</a> - <a onclick="supprimerVille(' + ville.id + ')" href="#">Supprimer</a></td></tr>';
-// document.getElementById("table_ville").innerHTML += newTrHtml;
 
+    if (document.getElementById("ajout_campus") === null){
+        document.getElementById("table_campus").innerHTML += newTrHtml;
+    }
+    else{
+        document.getElementById("ajout_campus").insertAdjacentHTML('beforebegin',newTrHtml)
+    }
+}
 
 function supprimerCampus(id){
-    $.getJSON(ROOL_URL + "api/Campus/Supprimer/"+ id, function (data){
+    $.getJSON(ROOL_URL + "api/campus/Supprimer/"+ id, function (data){
         if (data.id != null){
             document.getElementById(data.id).remove();
         } else {
@@ -29,13 +32,20 @@ function supprimerCampus(id){
     })
 }
 
+function tableauLigneAjout(){
+    var trAjoutHtml = '<tr id="ajout_campus"><td class="border p-1" id="nom"><input id="inp_nom" type="text"></td>' +
+        '<td class="border p-1"><a class="text-success" onclick="ajouterCampus(document.getElementById(\'ajout_campus\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\'))" href="#">Ajouter</a></td></tr>';
+    document.getElementById("table_campus").innerHTML += trAjoutHtml;
+}
+
+
 function rechercheCampus() {
 var valeurRecherche = document.getElementById("rechercheCampus").value
     document.querySelectorAll('.campusTable').forEach(function(a){
         a.remove()
     })
 
-    $.getJSON(ROOL_URL + "api/Campus/ListCampus/"+valeurRecherche, function (data){
+    $.getJSON(ROOL_URL + "api/campus/ListCampus/"+valeurRecherche, function (data){
         for(var i = 0; i < Object.keys(data.list_Campus).length; i++){
             tableauCampus(data.list_Campus[i]);
         }
@@ -59,7 +69,7 @@ var tdNomCamp = document.getElementById("camp"+id)
  else {
         var nomCampinput = document.getElementById("inputCamp" + id).value
 
-        $.getJSON(ROOL_URL + "api/Campus/updateCampus/"+nomCampinput+"/"+ id, function (data){
+        $.getJSON(ROOL_URL + "api/campus/updateCampus/"+nomCampinput+"/"+ id, function (data){
             if (data.id != null){
                 tdNomCamp.removeChild(tdNomCamp.firstChild)
                 tdNomCamp.innerText = nomCampinput;
@@ -69,4 +79,10 @@ var tdNomCamp = document.getElementById("camp"+id)
         })
 
     }
+}
+
+function ajouterCampus(nom){
+
+    console.log(nom);
+
 }

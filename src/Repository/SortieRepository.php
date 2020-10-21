@@ -128,4 +128,17 @@ class SortieRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSortie(int $id)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.campus','c')
+            ->join('s.lieux','l')
+            ->addSelect('c','l')
+            ->where('s.id = :id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

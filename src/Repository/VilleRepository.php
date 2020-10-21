@@ -19,6 +19,30 @@ class VilleRepository extends ServiceEntityRepository
         parent::__construct($registry, Ville::class);
     }
 
+    public function findVille($value)
+    {
+        $em = $this->getEntityManager();
+        $sql ="Select v.id, v.nom, v.codePostal
+        FROM App\Entity\Ville v 
+        Where (v.nom like :value or v.codePostal like :value)";
+        $query = $em->createQuery($sql);
+        $query->setParameter("value",'%'.$value.'%');
+        return $query->getResult();
+    }
+
+    public function updateVille($nom,$cp,$id)
+    {
+        $em = $this->getEntityManager();
+        $sql ="UPDATE App\Entity\Ville v 
+        SET v.nom = :nom, v.codePostal = :cp
+        Where v.id = :id";
+        $query = $em->createQuery($sql);
+        $query->setParameter("nom",$nom);
+        $query->setParameter("cp",$cp);
+        $query->setParameter("id",$id);
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Ville[] Returns an array of Ville objects
     //  */

@@ -65,6 +65,10 @@ class Sortie
     private $organisateur;
 
     /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $motif;
+    /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
      */
     private $campus;
@@ -230,13 +234,27 @@ class Sortie
         return $this;
     }
 
+
+    public function getMotif()
+    {
+        return $this->motif;
+    }
+
+
+    public function setMotif($motif): void
+    {
+        $this->motif = $motif;
+    }
+
     public function estInscrit($user){
+
         foreach ($this->getInscriptions() as $inscription){
             if ($user == $inscription->getParticipant()){
                 return true;
             }
         }
         return false;
+
     }
 
 }
