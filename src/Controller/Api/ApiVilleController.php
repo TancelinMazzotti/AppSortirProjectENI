@@ -54,7 +54,7 @@ class ApiVilleController extends AbstractController
      * @Route("/ListVille", name="list_ville")
      */
     public function getListVilleApi(VilleRepository $villeRepository){
-        $listVille = $villeRepository->findAll();
+        $listVille = $villeRepository->findVille("");
 
         return $this->json(['list_ville' => $listVille]);
     }
@@ -63,11 +63,8 @@ class ApiVilleController extends AbstractController
      * @return JsonResponse
      * @Route("/ListVille/{recherche}", name="recherche_ville")
      */
-    public function getListVilleApiRecherche($recherche){
-
-        $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
-
-        $listVille = $villeRepo->findVille($recherche);
+    public function getListVilleApiRecherche($recherche, VilleRepository $villeRepository){
+        $listVille = $villeRepository->findVille($recherche);
 
         return $this->json(['list_ville' => $listVille]);
     }
