@@ -8,8 +8,21 @@
     <h1> {{ title }}</h1>
 
     <div class="row">
-        <p>Flitre sur les Sortie</p>
-
+        <div class="col">
+            {{ form_start(formFilter) }}
+            {{ form_row(formFilter.campus) }}
+            {{ form_row(formFilter.nom) }}
+            {{ form_row(formFilter.dateDebut) }}
+            {{ form_row(formFilter.dateCloture) }}
+        </div>
+        <div class="col">
+            {{ form_row(formFilter.isOrganisateur) }}
+            {{ form_row(formFilter.isInscrit) }}
+            {{ form_row(formFilter.notInscrit) }}
+            {{ form_row(formFilter.isOnlyOld) }}
+            <button type="submit">Valider</button>
+            {{ form_end(formFilter) }}
+        </div>
     </div>
     <div class="row text-center">
         <table class="table">
@@ -23,19 +36,41 @@
                 <th>Organisateur</th>
                 <th colspan="2">Action</th>
             </tr>
-            {%  for inscrit in listSortie %}
+            {%  for sortie in listSortie %}
+                {#{{ dump(sortie.sortie.nom) }}#}
                 <tr>
-                    <td>{{ inscrit[0].sortie.nom }}</td>
-                    <td>{{ inscrit[0].sortie.dateDebut | date("m/d/y") }}</td>
-                    <td>{{ inscrit[0].sortie.dateCloture | date("m/d/y") }}</td>
-                    <td>{{ inscrit.inscrit }} / {{ inscrit[0].sortie.nbInscriptionMax }}</td>
-                    <td>{{ inscrit[0].sortie.etat.libelle }}</td>
-                    <td></td>
-                    <td>{{ inscrit[0].sortie.organisateur.pseudo }}</td>
-                    <td></td>
+                    <td>{{ sortie.sortie.nom }}</td>
+                    <td>{{ sortie.sortie.dateDebut | date("m/d/y") }}</td>
+                    <td>{{ sortie.sortie.dateCloture | date("m/d/y") }}</td>
+                    {#<td>{{ sortie.inscrip }} / {{ sortie.nbInscriptionMax }}</td>#}
+                    <td>{{ sortie.nbInscrits.inscrip }} / {{ sortie.sortie.nbInscriptionMax }}</td>
+                    <td>{{ sortie.sortie.etat.libelle }}</td>
+                    <td>{{ sortie.sortie.estInscrit(app.user) ? 'OUI' : '' }}</td>
+                    <td><a href="{{ path('participant_view', {'id': sortie.sortie.organisateur.id }) }}"> {{ sortie.sortie.organisateur.pseudo }}</a></td>
+                    <td>
+                    {% if app.user.pseudo == sortie.sortie.organisateur.pseudo and sortie.sortie.etat.libelle == "Créée" %}
+                        <a href="{{ path('sortie_sortieUpdate' , {'id' : sortie.sortie.id }) }}">Modifier</a>
+                    {% else %}
+                        <a href="{{ path('sortie_sortieShow', {'id' : sortie.sortie.id }) }}">Afficher</a>
+                    {% endif %}
+                    {% if app.user.pseudo != sortie.sortie.organisateur.pseudo %}
+                       {% if sortie.sortie.estInscrit(app.user) %}
+                           <a href="{{ path('inscription_deinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}">Se desister</a>
+                       {% else %}
+                           <a href="{{ path('inscription_sinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}">s'incrir</a>
+                       {% endif %}
+                    {% else %}
+                        <a href="#">Annuller</a>
+                    {% endif%}
+                    </td>
                 </tr>
             {% endfor %}
         </table>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <a  href="{{ path('sortie_sortieCreate') }}" class="btn btn-success">Crée une sortie</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
