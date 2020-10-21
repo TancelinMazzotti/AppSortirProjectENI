@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\cancelSortieType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\DBALException;
@@ -99,5 +101,38 @@ class SortieController extends AbstractController
             'form' => $form->createView(),
             'villes' => $villes
         ]);
+    }
+
+
+    /**
+     * @Route("/cancel/{id}", name="sortieCancel")
+     */
+    public function cancelSortie(int $id, Request $request, EntityManagerInterface $entityManager)
+    {
+        $sortie = $this->getDoctrine()
+            ->getRepository(Sortie::class)
+            ->findSortie($id);
+
+        $form = $this->createForm(cancelSortieType::class, $sortie[0]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $sortie[0]->setEtat();
+            $entityManager->persist($sortie[0]);
+            $entityManager->flush();
+            $updateStatus = $form->isValid();
+
+            return $this->render('sortie/cancel.html.twig', [
+                'form' => $form->createView(),
+                'updateStatus' => $updateStatus
+            ]);
+
+        }
+
+        return $this->render('sortie/cancel.html.twig', [
+            'form' => $form->createView(),
+            'sortie'=> $sortie[0]
+        ]);
+
     }
 }

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/api/Campus", name="api_campus_")
+ * @Route("/api/campus", name="api_campus_")
  * Class ApiCampusController
  * @package App\Controller\Api
  */

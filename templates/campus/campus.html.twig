@@ -10,9 +10,9 @@
 <h1 class="text-center">Gérer les campus</h1>
     <p class="ml-4 h4">Filtrer les sites</p>
     <label class="ml-5" for="rechercheCampus">Le Nom Contient: </label>
-    <input id="rechercheCampus"> <button id="rechercheCampusBtn" onClick="rechercheCampus()" >Rechercher</button>
+    <input id="rechercheCampus"> <button class="btn btn-outline-dark" id="rechercheCampusBtn" onClick="rechercheCampus()" >Rechercher</button>
 <div class="example-wrapper">
-    <table class="table table-bordered mr-5 ml-5 w-75 bg-white ">
+    <table class="table table-bordered mr-5 ml-5 mt-2 w-75 bg-white ">
         <thead>
         <tr>
             <th scope="col">Campus</th>
@@ -21,17 +21,10 @@
         </thead>
         <tbody id="table_campus">
 
-        <tr >
-            <td>{{ form_start(campusForm) }}{{ form_widget(campusForm) }}</td>
-            <td><button class="btn btn btn-success" type="submit">Ajouter</button>
-                {{ form_end(campusForm) }}</td>
-        </tr>
         </tbody>
     </table>
 
 </div>
-
-
 
 
 {% endblock %}
