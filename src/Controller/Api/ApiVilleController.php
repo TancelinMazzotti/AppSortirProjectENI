@@ -7,6 +7,7 @@ namespace App\Controller\Api;
 use App\Entity\Ville;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,21 +21,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiVilleController extends AbstractController
 {
     /**
-     * @Route("/Supprimer/{id}", name="supprimer")
+     * @param EntityManagerInterface $em
+     * @param VilleRepository $villeRepository
+     * @param Request $rq
+     * @return JsonResponse
+     * @Route("/AddVille", name="add_ville")
      */
-    public function supprimerVilleApi($id, EntityManagerInterface $em, VilleRepository $villeRepository)
-    {
-        $returnId = $id;
+    public function ajouterVilleApi(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq){
         try {
-            $supprimerVille = $villeRepository->find(array('id' => $id));
-
-            $em->remove($supprimerVille);
-            $em->flush();
-        } catch (\Exception $e) {
-            $returnId = null;
-            $this->addFlash('error', 'impossible de supprimer la ville : \n'.$e->getCode().'\n'.$e->getMessage());
+            $nom = $rq->request->get("nom");
+            $cp = $rq->request->get("cp");
+            if ($nom != null && $cp != null) {
+                $ville = new Ville();
+                $ville->setNom($nom);
+                $ville->setCodePostal($cp);
+                $em->persist($ville);
+                $em->flush();
+                $id = $ville->getId();
+                $insertedVille = $villeRepository->find(array('id' => $id));
+            } else {
+                throw new Exception('nom ou/et cp null.');
+            }
+        } catch (Exception $e) {
+            $this->addFlash('error', 'impossible d\'ajouter la ville : \n' . $e->getCode() . '\n' . $e->getMessage());
         }
-        return $this->json(['id' => $returnId]);
+        return $this->json(['ville' => $insertedVille]);
     }
 
     /**
@@ -49,40 +60,60 @@ class ApiVilleController extends AbstractController
     }
 
     /**
-     * @param EntityManagerInterface $em
-     * @param VilleRepository $villeRepository
-     * @param Request $rq
      * @return JsonResponse
-     * @Route("/AddVille", name="add_ville")
+     * @Route("/ListVille/{recherche}", name="recherche_ville")
      */
-    public function ajouterVilleApi(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq)
-    {
+    public function getListVilleApiRecherche($recherche){
+
+        $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
+
+        $listVille = $villeRepo->findVille($recherche);
+
+        return $this->json(['list_ville' => $listVille]);
+    }
+
+    /**
+     * @Route("/updateVille", name="update_ville")
+     */
+    public function updateVille(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq){
         try {
             $nom = $rq->request->get("nom");
             $cp = $rq->request->get("cp");
-            if ($nom != null && $cp != null) {
-                $ville = new Ville();
-                $ville->setNom($nom);
-                $ville->setCodePostal($cp);
-                $em->persist($ville);
-                $em->flush();
-                $id = $ville->getId();
-                $insertedVille = $villeRepository->find(array('id' => $id));
+            $id = $rq->request->get("id");
+            if ($nom != null && $cp != null && $id != null) {
+                $villeRepository->updateVille($nom,$cp,$id);
+                $updatedVille = $villeRepository->find(array('id' => $id));
             } else {
-                throw new \Exception('nom ou/et cp null.');
+                throw new Exception('nom ou/et cp null.');
             }
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'impossible d\'ajouter la ville : \n' . $e->getCode() . '\n' . $e->getMessage());
+        } catch (Exception $e) {
+            $this->addFlash('error', 'impossible de modifier la ville : \n' . $e->getCode() . '\n' . $e->getMessage());
         }
-        return $this->json(['ville' => $insertedVille]);
+        return $this->json(['ville' => $updatedVille]);
+    }
+
+    /**
+     * @Route("/Supprimer/{id}", name="supprimer")
+     */
+    public function supprimerVilleApi($id, EntityManagerInterface $em, VilleRepository $villeRepository){
+        $returnId = $id;
+        try {
+            $supprimerVille = $villeRepository->find(array('id' => $id));
+
+            $em->remove($supprimerVille);
+            $em->flush();
+        } catch (Exception $e) {
+            $returnId = null;
+            $this->addFlash('error', 'impossible de supprimer la ville : \n'.$e->getCode().'\n'.$e->getMessage());
+        }
+        return $this->json(['id' => $returnId]);
     }
 
     /**
      * @return JsonResponse
      * @Route("/{id}/lieux/", name="apiVilleLieux")
      */
-    public function getLieuxByVille(int $id)
-    {
+    public function getLieuxByVille(int $id){
         $ville =  $this->getDoctrine()
             ->getRepository(Ville::class)
             ->findOneBy(array('id' => $id));
