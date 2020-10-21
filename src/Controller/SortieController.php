@@ -6,6 +6,7 @@ use App\Entity\Inscription;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,7 +38,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/create", name="sortieCreate")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager)
+    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
         $sortie = new Sortie();
 
@@ -49,6 +50,10 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
+
+            $etatCreation = $etatRepository->findby(array('libelle' => 'Créée'));
+            $sortie->setEtat($etatCreation[0]);
+
             $entityManager->persist($sortie);
             $entityManager->flush();
             $createStatus = $form->isValid();

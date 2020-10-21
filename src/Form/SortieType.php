@@ -60,12 +60,12 @@ class SortieType extends AbstractType
                 'required' => true
             ])
 
-            ->add('etat', EntityType::class, [
+            /*->add('etat', EntityType::class, [
                 'label' => 'Etat: ',
                 'class' => Etat::class,
                 'choice_label' => 'libelle',
                 'required' => true
-            ])
+            ])*/
 
             ->add('lieux', EntityType::class, [
                 'label' => 'Lieux: ',
