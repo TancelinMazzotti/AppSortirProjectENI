@@ -112,7 +112,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/cancel/{id}", name="sortieCancel")
      */
-    public function cancelSortie(int $id, Request $request, EntityManagerInterface $entityManager)
+    public function cancelSortie(int $id, Request $request, EntityManagerInterface $entityManager,EtatRepository $etatRepository)
     {
         $sortie = $this->getDoctrine()
             ->getRepository(Sortie::class)
@@ -122,10 +122,14 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            $sortie[0]->setEtat();
+            $etatAnnulation = $etatRepository->findby(array('libelle' => 'Annulée'));
+
+            $sortie[0]->setEtat($etatAnnulation[0]);
             $entityManager->persist($sortie[0]);
             $entityManager->flush();
             $updateStatus = $form->isValid();
+
+            //dd($sortie[0]);
 
             return $this->render('sortie/cancel.html.twig', [
                 'form' => $form->createView(),
