@@ -120,7 +120,7 @@ class SortieRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('s')
             ->leftJoin('s.inscriptions','i')
-            ->select('count(i.participant) as inscrip')
+            ->select('s,count(i.participant) as inscrip')
             ->join('s.etat','e')
             ->join('s.organisateur','p')
             ->leftJoin('i.participant','pAll')
