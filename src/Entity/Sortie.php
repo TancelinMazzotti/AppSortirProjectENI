@@ -234,14 +234,27 @@ class Sortie
         return $this;
     }
 
+
     public function getMotif()
     {
         return $this->motif;
     }
 
+
     public function setMotif($motif): void
     {
         $this->motif = $motif;
+    }
+
+    public function estInscrit($user){
+
+        foreach ($this->getInscriptions() as $inscription){
+            if ($user == $inscription->getParticipant()){
+                return true;
+            }
+        }
+        return false;
+
     }
 
 }

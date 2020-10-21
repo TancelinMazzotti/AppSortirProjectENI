@@ -47,4 +47,17 @@ class InscriptionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getInscriptionBySortieIdAndParticipantId($idSortie,$isParti){
+
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.sortie = :idSortie')
+            ->setParameter('idSortie', $idSortie)
+            ->andWhere('i.participant = :idParti')
+            ->setParameter('idParti', $isParti)
+            ->getQuery()
+            ->getResult();
+
+    }
 }
+
