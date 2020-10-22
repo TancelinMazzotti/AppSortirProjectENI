@@ -69,6 +69,7 @@ class HomeController extends AbstractController
         $dateJ = new \DateTime();
 
         foreach ($listeSortie as $sortie => $keys){
+            //if($keys["sortie"]->getEtat() != '' )
             if ($keys["sortie"]->getDateDebut() <= $dateJ && $keys["sortie"]->getDateCloture() > $dateJ){
                 $etatEnCour = $etatRepository->findby(array('libelle' => 'Activité en cours'));
 
