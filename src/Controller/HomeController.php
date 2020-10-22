@@ -58,7 +58,7 @@ class HomeController extends AbstractController
         $listSortie = $this->loadAllSortie($listSortie,$sortieRepository,$etatRepository,$entityManager);
 
         return $this->render('home/index.html.twig', [
-            'title' => 'Acceuil',
+            'title' => 'Accueil',
             'formFilter' => $form->createView(),
             'listSortie' => $listSortie,
         ]);

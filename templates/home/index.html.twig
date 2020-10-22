@@ -4,8 +4,19 @@
 
 {% block main %}
 
-<div class="container">
-    <h1> {{ title }}</h1>
+
+    <div class="row justify-content-end mb-2">
+        <div class="col col-lg-2 font-weight-bold">
+            Date du jour :  {{ "now"|date("m/d/Y") }}
+        </div>
+    </div>
+    <div class="row justify-content-md-end mb-2">
+        <div class="col col-lg-2 font-weight-bold">
+            Participant : {{ app.user.username }}
+        </div>
+    </div>
+    <div class="container">
+    <h1 class="text-center mb-5"> {{ title }}</h1>
 
     <div class="row">
         <div class="col">
@@ -28,7 +39,7 @@
 
             {{ form_label(formFilter.isOnlyOld) }}
             {{ form_widget(formFilter.isOnlyOld) }}<br/>
-            <button type="submit">Valider</button>
+            <button type="submit">Rechercher</button>
             {{ form_end(formFilter) }}
         </div>
     </div>
