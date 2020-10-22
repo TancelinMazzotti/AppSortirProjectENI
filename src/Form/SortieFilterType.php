@@ -32,16 +32,20 @@ class SortieFilterType extends AbstractType
                 'required' => false
             ])
             ->add('isOrganisateur', CheckboxType::class, [
-                'required' => false
+                'required' => false,
+                'label' => 'Si Organisateur',
             ])
             ->add('isInscrit', CheckboxType::class, [
-                'required' => false
+                'required' => false,
+                'label' => 'Si Inscrit',
             ])
             ->add('notInscrit', CheckboxType::class, [
-                'required' => false
+                'required' => false,
+                'label' => 'Si pas Inscrit',
             ])
             ->add('isOnlyOld', CheckboxType::class, [
-                'required' => false
+                'required' => false,
+                'label' => 'les plus vielle',
             ])
         ;
     }

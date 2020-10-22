@@ -69,22 +69,23 @@ class HomeController extends AbstractController
         $dateJ = new \DateTime();
 
         foreach ($listeSortie as $sortie => $keys){
-            //if($keys["sortie"]->getEtat() != '' )
-            if ($keys["sortie"]->getDateDebut() <= $dateJ && $keys["sortie"]->getDateCloture() > $dateJ){
-                $etatEnCour = $etatRepository->findby(array('libelle' => 'Activité en cours'));
+            if($keys["sortie"]->getEtat() != 'Annulée') {
+                if ($keys["sortie"]->getDateDebut() <= $dateJ && $keys["sortie"]->getDateCloture() > $dateJ) {
+                    $etatEnCour = $etatRepository->findby(array('libelle' => 'Activité en cours'));
 
-                $keys["sortie"]->setEtat($etatEnCour[0]);
+                    $keys["sortie"]->setEtat($etatEnCour[0]);
 
-                $entityManager->persist($keys["sortie"]);
-                $entityManager->flush();
-            }
-            if($keys["sortie"]->getDateCloture() < $dateJ){
-                $etatEnCour = $etatRepository->findby(array('libelle' => 'Passée'));
+                    $entityManager->persist($keys["sortie"]);
+                    $entityManager->flush();
+                }
+                if ($keys["sortie"]->getDateCloture() < $dateJ) {
+                    $etatEnCour = $etatRepository->findby(array('libelle' => 'Passée'));
 
-                $keys["sortie"]->setEtat($etatEnCour[0]);
+                    $keys["sortie"]->setEtat($etatEnCour[0]);
 
-                $entityManager->persist($keys["sortie"]);
-                $entityManager->flush();
+                    $entityManager->persist($keys["sortie"]);
+                    $entityManager->flush();
+                }
             }
         }
         return $listeSortie;
