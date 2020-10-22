@@ -16,10 +16,18 @@
             {{ form_row(formFilter.dateCloture) }}
         </div>
         <div class="col">
-            {{ form_row(formFilter.isOrganisateur) }}
-            {{ form_row(formFilter.isInscrit) }}
-            {{ form_row(formFilter.notInscrit) }}
-            {{ form_row(formFilter.isOnlyOld) }}
+
+            {{ form_label(formFilter.isOrganisateur) }}
+            {{ form_widget(formFilter.isOrganisateur) }}<br/>
+
+            {{ form_label(formFilter.isInscrit) }}
+            {{ form_widget(formFilter.isInscrit) }}<br/>
+
+            {{ form_label(formFilter.notInscrit) }}
+            {{ form_widget(formFilter.notInscrit) }}<br/>
+
+            {{ form_label(formFilter.isOnlyOld) }}
+            {{ form_widget(formFilter.isOnlyOld) }}<br/>
             <button type="submit">Valider</button>
             {{ form_end(formFilter) }}
         </div>

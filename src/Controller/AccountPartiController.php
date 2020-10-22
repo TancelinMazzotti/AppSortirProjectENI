@@ -52,6 +52,8 @@ class AccountPartiController extends AbstractController
             $pass = $passwordEncoder->encodePassword($participant,$participant->getPass());
             $participant->setPass($pass);
 
+            $participant->setUrlPhoto("");
+
             $entityManager->persist($participant);
             $entityManager->flush();
 
@@ -60,7 +62,7 @@ class AccountPartiController extends AbstractController
 
             $session->set('_security_main',serialize($token));
 
-            $this->addFlash('succes','bien inscirt');
+            $this->addFlash('success','bien inscirt');
 
             return $this->redirectToRoute("home");
         }
