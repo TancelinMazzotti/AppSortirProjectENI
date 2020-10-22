@@ -28,15 +28,14 @@ class CampusRepository extends ServiceEntityRepository
         $query->setParameter("value",'%'.$value.'%');
         return $query->getResult();
     }
-
-    public function deleteCampus($value)
+    public function findByidCampus($id)
     {
         $em = $this->getEntityManager();
-        $sql ="Delete
+        $sql ="Select c.id, c.nomCampus
         FROM App\Entity\Campus c 
-        Where c.id = :value ";
+        Where c.id = :id ";
         $query = $em->createQuery($sql);
-        $query->setParameter("value",$value);
+        $query->setParameter("id",$id);
         return $query->getResult();
     }
 
