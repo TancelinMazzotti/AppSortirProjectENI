@@ -7,7 +7,7 @@ namespace App\Controller\Api;
 use App\Entity\Campus;
 use App\Repository\CampusRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Exception;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +27,8 @@ class ApiCampusController extends AbstractController
      * @return JsonResponse
      * @Route("/ListCampus", name="list_campus")
      */
-    public function getListCampusApi(){
+    public function getListCampusApi()
+    {
 
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $listCampus = $campusRepo->findCampus("");
@@ -52,13 +53,13 @@ class ApiCampusController extends AbstractController
         }
         return $this->json(['id' => $returnId]);
     }
-//api/Campus/ListCampusRecherche/
 
     /**
      * @return JsonResponse
      * @Route("/ListCampus/{recherche}", name="recherche_campus")
      */
-    public function getListCampusApiRecherche($recherche){
+    public function getListCampusApiRecherche($recherche)
+    {
 
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
 
@@ -68,25 +69,57 @@ class ApiCampusController extends AbstractController
     }
 
     /**
-     * @Route("/updateCampus/{nom}/{id}", name="update_campus")
+     * @param EntityManagerInterface $em
+     * @param CampusRepository $campusRepository
+     * @param Request $request
+     * @return JsonResponse
+     * @Route("/AddCampus", name="add_campus")
      */
-    public function updateCampus($nom,$id){
-
-        $returnId = $id;
-
+    public function AddCampus(EntityManagerInterface $em, CampusRepository $campusRepository, Request $request)
+    {
         try {
+            $nom = $request->request->get("nomCampus");
 
-            $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
-            $campusRepo->updateCampus($nom,$id);
+            if ($nom != null) {
+                $campus = new Campus();
+                $campus->setNomCampus($nom);
+                $em->persist($campus);
+                $em->flush();
 
-
+                $id = $campus->getId();
+                $insertedCampus = $campusRepository->findByidCampus($id);
+            } else {
+                throw new Exception('nom est null.');
+            }
         } catch (Exception $e) {
-            $returnId = null;
-            $this->addFlash('error', 'impossible d\'update le Campus');
+            $this->addFlash('error', 'impossible d\'ajouter le campus : \n' . $e->getCode() . '\n' . $e->getMessage());
         }
-        return $this->json(['id' => $returnId]);
 
+        return $this->json(['campus' => $insertedCampus[0]]);
     }
 
+    /**
+     * @Route("/updateCampus", name="update_campus")
+     * @param EntityManagerInterface $em
+     * @param CampusRepository $campusRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateCampus(EntityManagerInterface $em,CampusRepository $campusRepository, Request $request){
+
+        try {
+            $nom = $request->request->get("nomCampus");
+            $id = $request->request->get("id");
+            if ($nom != null  && $id != null) {
+                $campusRepository->updateCampus($nom,$id);
+                $updatedCampus = $campusRepository->findByidCampus($id);
+            } else {
+                throw new Exception('nom  null.');
+            }
+        } catch (Exception $e) {
+            $this->addFlash('error', 'impossible de modifier le campus : \n' . $e->getCode() . '\n' . $e->getMessage());
+        }
+        return $this->json(['campus' => $updatedCampus[0]]);
+    }
 
 }
