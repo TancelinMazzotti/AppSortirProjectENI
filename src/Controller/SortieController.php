@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\cancelSortieType;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/create", name="sortieCreate")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager)
+    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
         $sortie = new Sortie();
 
@@ -51,6 +52,10 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
+
+            $etatCreation = $etatRepository->findby(array('libelle' => 'Créée'));
+            $sortie->setEtat($etatCreation[0]);
+
             $entityManager->persist($sortie);
             $entityManager->flush();
             $createStatus = $form->isValid();
@@ -107,7 +112,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/cancel/{id}", name="sortieCancel")
      */
-    public function cancelSortie(int $id, Request $request, EntityManagerInterface $entityManager)
+    public function cancelSortie(int $id, Request $request, EntityManagerInterface $entityManager,EtatRepository $etatRepository)
     {
         $sortie = $this->getDoctrine()
             ->getRepository(Sortie::class)
@@ -117,10 +122,14 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()) {
-            $sortie[0]->setEtat();
+            $etatAnnulation = $etatRepository->findby(array('libelle' => 'Annulée'));
+
+            $sortie[0]->setEtat($etatAnnulation[0]);
             $entityManager->persist($sortie[0]);
             $entityManager->flush();
             $updateStatus = $form->isValid();
+
+            //dd($sortie[0]);
 
             return $this->render('sortie/cancel.html.twig', [
                 'form' => $form->createView(),

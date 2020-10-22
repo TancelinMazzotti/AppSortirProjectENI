@@ -49,19 +49,24 @@
                     <td><a href="{{ path('participant_view', {'id': sortie.sortie.organisateur.id }) }}"> {{ sortie.sortie.organisateur.pseudo }}</a></td>
                     <td>
                     {% if app.user.pseudo == sortie.sortie.organisateur.pseudo and sortie.sortie.etat.libelle == "Créée" %}
-                        <a href="{{ path('sortie_sortieUpdate' , {'id' : sortie.sortie.id }) }}">Modifier</a>
+                        <a href="{{ path('sortie_sortieUpdate' , {'id' : sortie.sortie.id }) }}" class="btn btn-warning" >Modifier</a>
+                        <a href="{{ path('sortie_sortieCancel', {'id' : sortie.sortie.id })}}" class="btn btn-danger">Annuler</a>
                     {% else %}
-                        <a href="{{ path('sortie_sortieShow', {'id' : sortie.sortie.id }) }}">Afficher</a>
+                        <a href="{{ path('sortie_sortieShow', {'id' : sortie.sortie.id }) }}" class="btn btn-info">Afficher</a>
                     {% endif %}
                     {% if app.user.pseudo != sortie.sortie.organisateur.pseudo %}
-                       {% if sortie.sortie.estInscrit(app.user) %}
-                           <a href="{{ path('inscription_deinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}">Se desister</a>
-                       {% else %}
-                           <a href="{{ path('inscription_sinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}">s'incrir</a>
-                       {% endif %}
-                    {% else %}
-                        <a href="#">Annuller</a>
-                    {% endif%}
+                        {% if sortie.sortie.etat.libelle == "Créée" %}
+                        {% if sortie.sortie.estInscrit(app.user) %}
+                            <a href="{{ path('inscription_deinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}" class="btn btn-danger">Se desister</a>
+                        {% else %}
+                            <a href="{{ path('inscription_sinscrir', {'idSortie' : sortie.sortie.id , 'idUser' : app.user.id}) }}" class="btn btn-success">s'incrire</a>
+                        {% endif %}
+                            {% endif %}
+                    {% endif %}
+                        {#{% if false %}
+                        <a href="{{ path('sortie_sortieUpdate', {'id' : sortie.sortie.id })}}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('sortie_sortieCancel', {'id' : sortie.sortie.id })}}" class="btn btn-danger">Annuler</a>
+                    {% endif%}#}
                     </td>
                 </tr>
             {% endfor %}
