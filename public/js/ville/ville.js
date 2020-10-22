@@ -11,7 +11,7 @@ function loadVille(){
 
 function tableauVille(ville){
     var newTrHtml = '<tr id="' + ville.id + '" class="ligneVille"><td class="border p-1 nom">' + ville.nom + '</td><td class="border p-1 cp">' + ville.codePostal + '</td>' +
-        '<td class="border p-1"><a class="text-warning" onclick="modifierVille(' + ville.id + ')" href="#">Modifier</a> - <a class="text-danger" onclick="supprimerVille(' + ville.id + ')" href="#">Supprimer</a></td></tr>';
+        '<td class="border p-1"><a class="text-warning" onclick="modifierVille(' + ville.id + ')" href="#!">Modifier</a> - <a class="text-danger" onclick="supprimerVille(' + ville.id + ')" href="#!">Supprimer</a></td></tr>';
     if (document.getElementById("ajout_ville") === null){
         document.getElementById("table_ville").innerHTML += newTrHtml;
     }
@@ -24,7 +24,7 @@ function tableauLigneAjout(){
     var trAjoutHtml = '<tr id="ajout_ville"><td class="border p-1 nom" id="nom"><input id="inp_nom" type="text"></td>' +
         '<td class="border p-1 cp" id="cp"><input id="inp_cp" type="text"></td>' +
         '<td class="border p-1"><a class="text-success" onclick="ajouterVille(document.getElementById(\'ajout_ville\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\').value,' +
-        'document.getElementById(\'ajout_ville\').children.namedItem(\'cp\').children.namedItem(\'inp_cp\').value)" href="#">Ajouter</a></td></tr>';
+        'document.getElementById(\'ajout_ville\').children.namedItem(\'cp\').children.namedItem(\'inp_cp\').value)" href="#!">Ajouter</a></td></tr>';
     document.getElementById("table_ville").innerHTML += trAjoutHtml;
 }
 

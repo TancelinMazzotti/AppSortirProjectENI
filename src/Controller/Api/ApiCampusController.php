@@ -29,7 +29,7 @@ class ApiCampusController extends AbstractController
      */
     public function getListCampusApi()
     {
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $listCampus = $campusRepo->findCampus("");
 
@@ -41,6 +41,7 @@ class ApiCampusController extends AbstractController
      */
     public function supprimerCampus($id, EntityManagerInterface $em, CampusRepository $campusRepository)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $returnId = $id;
         try {
             $supprimerCampus = $campusRepository->find(array('id' => $id));
@@ -60,7 +61,7 @@ class ApiCampusController extends AbstractController
      */
     public function getListCampusApiRecherche($recherche)
     {
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
 
         $listCampus = $campusRepo->findCampus($recherche);
@@ -77,6 +78,7 @@ class ApiCampusController extends AbstractController
      */
     public function AddCampus(EntityManagerInterface $em, CampusRepository $campusRepository, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
             $nom = $request->request->get("nomCampus");
 
@@ -106,7 +108,7 @@ class ApiCampusController extends AbstractController
      * @return JsonResponse
      */
     public function updateCampus(EntityManagerInterface $em,CampusRepository $campusRepository, Request $request){
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
             $nom = $request->request->get("nomCampus");
             $id = $request->request->get("id");

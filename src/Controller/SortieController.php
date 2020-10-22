@@ -42,6 +42,7 @@ class SortieController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
     {
+
         $sortie = new Sortie();
 
         $villes = $this->getDoctrine()
@@ -121,21 +122,15 @@ class SortieController extends AbstractController
         $form = $this->createForm(cancelSortieType::class, $sortie[0]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted()) {
+        if($form->isSubmitted() && $form->isValid()) {
             $etatAnnulation = $etatRepository->findby(array('libelle' => 'Annulée'));
 
             $sortie[0]->setEtat($etatAnnulation[0]);
             $entityManager->persist($sortie[0]);
             $entityManager->flush();
-            $updateStatus = $form->isValid();
 
-            //dd($sortie[0]);
 
-            return $this->render('sortie/cancel.html.twig', [
-                'form' => $form->createView(),
-                'updateStatus' => $updateStatus
-            ]);
-
+               return $this->redirectToRoute('home');
         }
 
         return $this->render('sortie/cancel.html.twig', [

@@ -22,6 +22,7 @@ class CampusController extends AbstractController
      */
     public function homeCampus(EntityManagerInterface $em,Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('campus/campus.html.twig', [
             'title' => 'Campus',
         ]);

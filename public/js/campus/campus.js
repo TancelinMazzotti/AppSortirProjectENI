@@ -12,7 +12,7 @@ function loadCampus(){
 
 function tableauCampus(Campus){
     var newTrHtml = '<tr id="' + Campus.id + '" class="campusTable"><td id="camp' + Campus.id + '" class="nom">' + Campus.nomCampus + '</td><td class="border p-1">' +
-        '<a  onclick="modifierCampus(' + Campus.id + ')" class="text-warning" href="#">Modifier</a> - <a  onclick="supprimerCampus(' + Campus.id + ')" class="text-danger" href="#">Supprimer</a></td></tr>';
+        '<a  onclick="modifierCampus(' + Campus.id + ')" class="text-warning" href="#!">Modifier</a> - <a  onclick="supprimerCampus(' + Campus.id + ')" class="text-danger" href="#!">Supprimer</a></td></tr>';
 
     if (document.getElementById("ajout_campus") === null){
         document.getElementById("table_campus").innerHTML += newTrHtml;
@@ -34,7 +34,7 @@ function supprimerCampus(id){
 
 function tableauLigneAjout(){
     var trAjoutHtml = '<tr id="ajout_campus"><td class="border p-1 nom" id="nom"><input id="inp_nom" type="text"></td>' +
-        '<td class="border p-1"><a class="text-success" onclick="ajouterCampus(document.getElementById(\'ajout_campus\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\').value)" href="#">Ajouter</a></td></tr>';
+        '<td class="border p-1"><a class="text-success" onclick="ajouterCampus(document.getElementById(\'ajout_campus\').children.namedItem(\'nom\').children.namedItem(\'inp_nom\').value)" href="#!">Ajouter</a></td></tr>';
     document.getElementById("table_campus").innerHTML += trAjoutHtml;
 }
 

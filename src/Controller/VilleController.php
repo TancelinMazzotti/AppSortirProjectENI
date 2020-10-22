@@ -25,6 +25,7 @@ class VilleController extends AbstractController
      */
     public function getVilleList()
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('ville/ville.html.twig', [
             'title' => 'Ville',
         ]);

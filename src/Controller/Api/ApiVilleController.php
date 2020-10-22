@@ -28,6 +28,7 @@ class ApiVilleController extends AbstractController
      * @Route("/AddVille", name="add_ville")
      */
     public function ajouterVilleApi(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
             $nom = $rq->request->get("nom");
             $cp = $rq->request->get("cp");
@@ -54,6 +55,7 @@ class ApiVilleController extends AbstractController
      * @Route("/ListVille", name="list_ville")
      */
     public function getListVilleApi(VilleRepository $villeRepository){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $listVille = $villeRepository->findVille("");
 
         return $this->json(['list_ville' => $listVille]);
@@ -64,6 +66,7 @@ class ApiVilleController extends AbstractController
      * @Route("/ListVille/{recherche}", name="recherche_ville")
      */
     public function getListVilleApiRecherche($recherche, VilleRepository $villeRepository){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $listVille = $villeRepository->findVille($recherche);
 
         return $this->json(['list_ville' => $listVille]);
@@ -73,6 +76,7 @@ class ApiVilleController extends AbstractController
      * @Route("/updateVille", name="update_ville")
      */
     public function updateVille(EntityManagerInterface $em,VilleRepository $villeRepository, Request $rq){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
             $nom = $rq->request->get("nom");
             $cp = $rq->request->get("cp");
@@ -93,6 +97,7 @@ class ApiVilleController extends AbstractController
      * @Route("/Supprimer/{id}", name="supprimer")
      */
     public function supprimerVilleApi($id, EntityManagerInterface $em, VilleRepository $villeRepository){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $returnId = $id;
         try {
             $supprimerVille = $villeRepository->find(array('id' => $id));
@@ -111,6 +116,7 @@ class ApiVilleController extends AbstractController
      * @Route("/{id}/lieux/", name="apiVilleLieux")
      */
     public function getLieuxByVille(int $id){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $ville =  $this->getDoctrine()
             ->getRepository(Ville::class)
             ->findOneBy(array('id' => $id));
