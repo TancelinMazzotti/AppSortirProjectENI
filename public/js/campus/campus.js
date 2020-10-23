@@ -97,7 +97,7 @@ function ajouterCampus(nom){
             }
         }, "json");
     } else {
-        alert('le champ nom doit être remplis');
+        alert('le champ nom doit être rempli');
     }
 
 }
